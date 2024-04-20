@@ -1,9 +1,16 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import NavbarTop from '../components/NavbarTop.vue';
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="full-width">
+    <navbar-top />
+  </div>
 </template>
+
+<style scoped>
+.full-width {
+  display: flex;
+  width: 100%; /* Ensure the div takes full width */
+}
+</style>
