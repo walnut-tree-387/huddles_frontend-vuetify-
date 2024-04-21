@@ -1,8 +1,8 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 </script>
 
-<template>
+<template style="background-color:white">
   <nilam-product-card />
   <header>
   </header>
@@ -38,7 +38,7 @@ nav a.router-link-exact-active {
 }
 
 nav a.router-link-exact-active:hover {
-  background-color: transparent;
+  background-color: white;
 }
 
 nav a {

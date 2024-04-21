@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: transparent;
+    background-color: white;
     padding: 8px;
   }
   
@@ -27,7 +27,7 @@
   .tab-indicator {
     position: absolute;
     bottom: 0;
-    height: 90%; 
+    height: 100%; 
     transition: left 0.3s ease, width 0.3s ease, background-color 0.3s ease;
   }
   
@@ -37,6 +37,7 @@
       font-size: 1rem;
       padding: 1rem 0;
       margin-top: 1rem;
+      margin-bottom: 1rem;
       position: relative;
     }
   
@@ -57,7 +58,7 @@
         activeTab: 'Popular',
         indicatorPosition: '0',
         indicatorWidth: '0',
-        indicatorColor: 'transparent',
+        indicatorColor: 'white',
       };
     },
     watch: {

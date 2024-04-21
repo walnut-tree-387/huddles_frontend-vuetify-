@@ -39,7 +39,7 @@
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: transparent;
+  background-color: white;
   color: rgb(0, 0, 0);
   padding: 10px 0;
   z-index: 1000; /* Ensure the navbar is on top of other content */

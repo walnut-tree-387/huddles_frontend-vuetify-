@@ -1,10 +1,10 @@
 <script setup>
-import NavbarTop from '../components/NavbarTop.vue';
+import OrderSummary from '../components/OrderSummary.vue';
 </script>
 
 <template>
   <div class="full-width">
-    <navbar-top />
+    <order-summary />
   </div>
 </template>
 
