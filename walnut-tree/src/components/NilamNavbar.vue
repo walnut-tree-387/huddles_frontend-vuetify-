@@ -1,7 +1,7 @@
 <template>
     <nav>
       <nav-item v-for="(tab, index) in tabs" :key="index" :tab="tab" :active="activeTab === tab" @click="activeTab = tab">{{ tab }}</nav-item>
-      <div class="tab-indicator" :style="{ left: indicatorPosition, width: indicatorWidth, backgroundColor: indicatorColor }"></div>
+      <div class="tab-indicator" :style="{ left: indicatorPosition, width: indicatorWidth, height: tabIndicatorHeight, backgroundColor: indicatorColor }"></div>
     </nav>
   </template>
   
@@ -27,31 +27,32 @@
   .tab-indicator {
     position: absolute;
     bottom: 0;
-    height: 100%; 
+    border-radius: 5px;
     transition: left 0.3s ease, width 0.3s ease, background-color 0.3s ease;
   }
   
   @media (min-width: 200px) {
     nav {
-      margin-left: -1rem;
       font-size: 1rem;
       padding: 1rem 0;
       margin-top: 1rem;
       margin-bottom: 1rem;
       position: relative;
     }
-  
-    nav-item {
-      margin-right: 24px;
-    }
     nav-item[active="true"] {
-    color: #ffffff;
+    color: #e70f0f;
   }
   }
   </style>
   
   <script>
   export default {
+    props: {
+      tabIndicatorHeight: {
+        type: String, 
+        default: '100%',
+      }
+    },
     data() {
       return {
         tabs: ['Popular', 'Shirts', 'Pants', 'Shoes'],
@@ -62,7 +63,7 @@
       };
     },
     watch: {
-      activeTab(newTab, oldTab) {
+      activeTab(newTab) {
         const tabs = this.tabs;
         const currentIndex = tabs.indexOf(newTab);
         const tabWidth = 100 / tabs.length;

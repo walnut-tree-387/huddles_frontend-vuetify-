@@ -1,0 +1,11 @@
+$aesl-font-family: 'Inter', 'Roboto', sans-serif;
+
+@use 'vuetify/settings' with (
+  $body-font-family: $aesl-font-family,
+  $heading-font-family: $aesl-font-family,
+
+  $text-field-details-padding-inline: 0,
+  $button-height: 52px
+);
+
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');

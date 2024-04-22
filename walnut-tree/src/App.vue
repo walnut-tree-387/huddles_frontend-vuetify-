@@ -1,80 +1,32 @@
-<script setup>
-import { RouterView } from 'vue-router'
-</script>
-
-<template style="background-color:white">
-  <nilam-product-card />
-  <header>
-  </header>
-  <body>
-  </body>
-  <RouterView />
+<template>
+  <v-app>
+    <div class="root">
+      <NavbarTop />
+      <v-main>
+        <v-title>dsfsdf</v-title>
+        <body>
+          <router-view/>
+        </body>
+      </v-main>
+    </div>
+  </v-app>
 </template>
 
+<script>
+import NavbarTop from './components/NavbarTop.vue';
+export default {
+  name: 'App',
+  components : {
+    NavbarTop
+  },
+  data: () => ({
+    //
+  }),
+}
+</script>
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-body {
-  font-family: 'Roboto', sans-serif;
-}
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: white;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.root{
+  display: flex;
+  flex-direction: column;
 }
 </style>

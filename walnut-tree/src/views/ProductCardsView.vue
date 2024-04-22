@@ -1,42 +1,51 @@
 <script setup>
 import NilamProductCard from '@/components/NilamProductCard.vue';
 import NilamNavbar from '@/components/NilamNavbar.vue';
-import NilamPagination from '@/components/NilamPagination.vue'
+import NilamPagination from '@/components/NilamPagination.vue';
+import OrderSummary from '@/components/OrderSummary.vue';
 </script>
 
-<template>
-  <main>
-    <header>
-      <NilamNavbar />
-    </header>
-    <body>
+<template>      
+  <div class="product-view">
+    <div class="product-list">
+      <NilamNavbar :tab-indicator-height="'2%'" class="navbar"/>
       <div class="product-card-container">
-        <NilamProductCard v-for="index in 5" :key="index" class="product-card" />
+        <NilamProductCard v-for="index in 3" :key="index" class="product-card" />
       </div>
       <NilamPagination />
-    </body>
-  </main>
+    </div>
+    <div class="basket-summary">
+      <order-summary />
+    </div>
+  </div>
 </template>
 
 <style scoped>
-  body {
+  .product-view {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-around;
+    margin-top: 85px;
   }
   .product-card-container {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px 0; 
-    width: 100%;
-    max-width: 1250px;
-    margin: 0 auto;
+    justify-content: space-between; 
   }
   .product-card {
     flex: 0 0 calc(20% - 10px); 
     margin-bottom: 20px;
     box-sizing: border-box;
+  }
+  .product-list{
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    width: 60%;
+  }
+  .basket-summary{
+    padding: 10px;
+    width: 25%;
   }
 </style>

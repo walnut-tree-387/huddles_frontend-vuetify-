@@ -1,33 +1,34 @@
 <template>
     <div class="order-summary">
+      <h3 class="title">Basket</h3>
       <div v-for="(value, key) in orderDetails" :key="key" class="order-item">
         <span class="key">{{ key }}:</span>
         <span class="value">{{ value }}</span>
       </div>
       <button class="order-button" @click="orderSummaryClicked">
-        Order Summary
-        <i class="fa fa-home"></i>
+        Place your order
+        <CommitIcon />
       </button>
     </div>
   </template>
   
   <script>
+  import CommitIcon from './icons/CommitIcon.vue'
   export default {
     name: 'OrderSummary',
+    components: {
+      CommitIcon
+    },
     data() {
       return {
         orderDetails: {
-          // Your key-value pairs here
-          customerName: 'John Doe',
-          totalItems: 5,
-          totalPrice: '$50.00',
-          // Add more key-value pairs as needed
+          Items: 5,
+          Price: '500.00 Tk',
         }
       };
     },
     methods: {
       orderSummaryClicked() {
-        // Add functionality for what happens when the button is clicked
         console.log('Order Summary clicked');
       }
     }
@@ -36,17 +37,26 @@
   
   <style scoped>
   .order-summary {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 5px;
+    background-color: white;
+    color: black;
   }
   
   .order-item {
     margin-bottom: 10px;
   }
+  .title{
+    text-align: center;
+  }
   
   .key {
     font-weight: bold;
+    margin-right: 3px;
   }
   
   .order-button {

@@ -5,23 +5,22 @@
         <span class="logo-text">Nilam</span>
       </div>
       <div class="empty-space"></div>
-      <nilam-navbar class="nilam-navbar"/> <!-- This will render the NilamNavbar component -->
+      <nilam-navbar class="nilam-navbar"/> 
     </nav>
   </template>
   
   <script>
-  import NilamNavbar from '../components/NilamNavbar.vue'; // Import NilamNavbar component
+  import NilamNavbar from '../components/NilamNavbar.vue';
   
   export default {
     components: {
-      NilamNavbar // Register NilamNavbar component
+      NilamNavbar
     },
     data() {
       return {
         menuItems: [
           { text: "Films", link: "/films" },
           { text: "Services", link: "/services" },
-          // Add more menu items as needed
         ],
       };
     },
@@ -42,7 +41,7 @@
   background-color: white;
   color: rgb(0, 0, 0);
   padding: 10px 0;
-  z-index: 1000; /* Ensure the navbar is on top of other content */
+  z-index: 1000;
 }
 
 .nav-logo {
@@ -54,9 +53,9 @@
 }
 
 .logo-image {
-  width: 40px; /* Adjust the width as needed */
-  height: 40px; /* Maintain aspect ratio */
-  margin-right: 10px; /* Add spacing between image and text */
+  width: 40px; 
+  height: 40px; 
+  margin-right: 10px;
 }
 
 .logo-text {
