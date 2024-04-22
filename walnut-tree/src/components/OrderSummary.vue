@@ -7,7 +7,7 @@
       </div>
       <button class="order-button" @click="orderSummaryClicked">
         Place your order
-        <CommitIcon />
+        <CommitIcon :icon-height="'10%'" :icon-width="'10%'"/>
       </button>
     </div>
   </template>
@@ -68,6 +68,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   
   .order-button i {
