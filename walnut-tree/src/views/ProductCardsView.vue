@@ -1,51 +1,12 @@
 <script setup>
-import NilamProductCard from '@/components/NilamProductCard.vue';
-import NilamNavbar from '@/components/NilamNavbar.vue';
-import NilamPagination from '@/components/NilamPagination.vue';
-import OrderSummary from '@/components/OrderSummary.vue';
+import NilamProductTable from '../components/NilamProductTable.vue'
 </script>
 
 <template>      
-  <div class="product-view">
-    <div class="product-list">
-      <NilamNavbar :tab-indicator-height="'2%'" class="navbar"/>
-      <div class="product-card-container">
-        <NilamProductCard v-for="index in 3" :key="index" class="product-card" />
-      </div>
-      <NilamPagination />
-    </div>
-    <div class="basket-summary">
-      <order-summary />
-    </div>
-  </div>
+  <v-container>
+    <nilam-product-table />
+  </v-container>
 </template>
 
 <style scoped>
-  .product-view {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-top: 85px;
-  }
-  .product-card-container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: space-between; 
-  }
-  .product-card {
-    flex: 0 0 calc(20% - 10px); 
-    margin-bottom: 20px;
-    box-sizing: border-box;
-  }
-  .product-list{
-    display: flex;
-    padding: 10px;
-    flex-direction: column;
-    width: 60%;
-  }
-  .basket-summary{
-    padding: 10px;
-    width: 25%;
-  }
 </style>
