@@ -47,12 +47,13 @@ export default {
     align-items: center;
     border: .1rem solid rgb(27, 27, 27);
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
     border-radius: 10px;
 }
 
 .avatar {
-    margin-right: 20px; /* Spacing between avatar and details */
+    margin-right: 20px;
 }
 
 </style>
