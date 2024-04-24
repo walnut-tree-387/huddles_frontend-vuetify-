@@ -2,16 +2,14 @@
     <div class="pagination-container">
         <div class="pagination-info">
             <span>Items per page:</span>
-            <select class="per-page-dropdown">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
+            <select class="per-page-dropdown" v-bind="perPage" @change="updatePerPage()">
+                <option v-for="option in perPageOptions" :value="option" :key="option">{{ option }}</option>
             </select>
-            <span class="total-items-info">Total items: 0</span>
+            <span class="total-items-info">Total items: {{ totalItems }}</span>
         </div>
         <div class="pagination-controls">
-            <button class="prev-btn">Previous</button>
-            <button class="next-btn">Next</button>
+            <button class="prev-btn" @click="getPage('previous')">Previous</button>
+            <button class="next-btn" @click="getPage('next')">Next</button>
         </div>
     </div>
 </template>
@@ -36,6 +34,7 @@
 }
 .per-page-dropdown {
     padding: 8px;
+    margin: 8px;
 }
 .total-items-info {
     margin-left: 10px;
@@ -46,34 +45,31 @@
 </style>
 <script>
 export default {
-    data() {
-        return {
-            perPage: 4, // Default items per page
-            totalItems: 100,
-            currentPage: 1
-            // Add more data properties as needed
-        };
-    },
-    methods: {
-        updatePerPage() {
-            // Perform any actions needed when the items per page is changed
+    props: {
+        perPage: {
+            type: Number,
+            required: true
         },
-        prevPage() {
-            // Handle previous page button click
-            if (this.currentPage > 1) {
-                this.currentPage--;
-                // Perform any actions needed when going to the previous page
-            }
+        totalItems: {
+            type: Number,
+            required: true
         },
-        nextPage() {
-            // Handle next page button click
-            // Assuming totalItems is updated dynamically, you may need additional logic here to determine if there are more pages
-            if ((this.currentPage * this.perPage) < this.totalItems) {
-                this.currentPage++;
-                // Perform any actions needed when going to the next page
-            }
+        currentPage: {
+            type: Number,
+            required: true
+        },
+        perPageOptions: {
+            type: Array,
+            default: () => [10, 20, 30] 
         }
-        // Add more methods as needed
+    },
+    methods:{
+        getPage(value){
+            this.$emit('pagination-action', value);
+        },
+        updatePerPage(){
+            this.$emit('updatePerPage', this.perPage)
+        }
     }
 };
 </script>
