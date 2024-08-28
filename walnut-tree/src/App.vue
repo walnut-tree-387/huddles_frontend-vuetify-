@@ -5,7 +5,7 @@
       <v-main>
         <v-title>dsfsdf</v-title>
         <body>
-          <router-view/>
+          <router-view />
         </body>
       </v-main>
     </div>
@@ -13,19 +13,19 @@
 </template>
 
 <script>
-import NavbarTop from './components/NavbarTop.vue';
+import NavbarTop from './components/NavbarTop.vue'
 export default {
   name: 'App',
-  components : {
+  components: {
     NavbarTop
   },
   data: () => ({
     //
-  }),
+  })
 }
 </script>
 <style scoped>
-.root{
+.root {
   display: flex;
   flex-direction: column;
 }

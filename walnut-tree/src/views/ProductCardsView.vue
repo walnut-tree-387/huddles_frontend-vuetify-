@@ -2,11 +2,10 @@
 import NilamProductTable from '../components/NilamProductTable.vue'
 </script>
 
-<template>      
+<template>
   <v-container>
     <nilam-product-table />
   </v-container>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
