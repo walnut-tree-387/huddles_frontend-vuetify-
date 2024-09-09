@@ -15,7 +15,7 @@ async function mapIconsWithFileSystemLoader(variant: 'light' | 'regular' | 'fill
   try {
     const iconGroups = await fs.readdir(path.resolve(iconsPath, variant))
     iconGroups.forEach((iconGroup) => {
-      icons[`aes-${variant}-${iconGroup}`] = FileSystemIconLoader(
+      icons[`wt-${variant}-${iconGroup}`] = FileSystemIconLoader(
         path.resolve(iconsPath, variant, iconGroup)
       )
     })
@@ -51,6 +51,6 @@ export default defineConfig({
     }
   },
   server: {
-    port: 4000
+    port: 1111
   }
 })
