@@ -9,6 +9,7 @@
     /> -->
     <WalnutTreePrimaryAddButton @click="showToast()" />
     <WalnutToast />
+    <WalnutUserAvatar color="green" />
   </div>
   <!-- <WalnutTreeTableActionButton /> -->
 </template>
@@ -16,6 +17,7 @@
 import { title } from 'process'
 import { ref } from 'vue'
 import WalnutToast from '@/components/toasts/WalnutToast.vue'
+import WalnutUserAvatar from '@/components/WalnutUserAvatar.vue'
 import WalnutTreePrimaryAddButton from '../components/buttons/WalnutTreePrimaryAddButton.vue'
 import WalnutTreeTableActionButton from '../components/buttons/WalnutTreeTableActionButton.vue'
 import WalnutTreeEvents from '@/components/WalnutTreeEvents.vue'
