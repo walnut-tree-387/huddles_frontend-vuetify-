@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defaults } from '@/plugins/vuetify/cards'
 import type { VCard } from 'vuetify/components'
-
+import WalnutTreeProceedButton from '../buttons/WalnutTreeProceedButton.vue'
 withDefaults(
   defineProps<{
     title: string
@@ -55,7 +55,7 @@ withDefaults(
             <template v-else>
               <tr>
                 <td v-if="header.icon" class="d-flex align-center justify-start ga-3">
-                  <v-icon :icon="header.icon"></v-icon>{{ header.name }}
+                  {{ header.name }}
                 </td>
                 <td v-else>{{ header.name }}</td>
                 <td>{{ value[header.key] }}</td>
@@ -64,6 +64,9 @@ withDefaults(
           </template>
         </table>
       </v-card-text>
+      <v-card-actions>
+        <WalnutTreeProceedButton />
+      </v-card-actions>
     </v-defaults-provider>
   </v-card>
 </template>

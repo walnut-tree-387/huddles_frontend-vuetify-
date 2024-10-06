@@ -1,15 +1,15 @@
 <template>
   <div class="about">
-    <!-- <walnut-tree-events
+    <walnut-tree-events
       :title="'Ongoing Events'"
       variant="tonal"
       color="info"
       :items="userData"
       :headers="cardHeaders"
-    /> -->
+    />
     <WalnutTreePrimaryAddButton @click="showToast()" />
     <WalnutToast />
-    <WalnutUserAvatar color="green" />
+    <!-- <WalnutUserAvatar color="green" /> -->
   </div>
   <!-- <WalnutTreeTableActionButton /> -->
 </template>
@@ -40,6 +40,41 @@ const userData = ref([
     id: 2,
     host: 'Jaago Foundation',
     email: 'jago.bahe@example.com',
+    targetAmount: '9500000 Tk.',
+    totalDonation: '12000 Tk.'
+  },
+  {
+    id: 3,
+    host: 'Prothom Alo Foundation',
+    email: 'prothom.alo@example.com',
+    targetAmount: '9500000 Tk.',
+    totalDonation: '12000 Tk.'
+  },
+  {
+    id: 4,
+    host: 'Samakal Foundation',
+    email: 'samakal@example.com',
+    targetAmount: '9500000 Tk.',
+    totalDonation: '12000 Tk.'
+  },
+  {
+    id: 5,
+    host: 'Samakal Foundation',
+    email: 'samakal@example.com',
+    targetAmount: '9500000 Tk.',
+    totalDonation: '12000 Tk.'
+  },
+  {
+    id: 6,
+    host: 'Samakal Foundation',
+    email: 'samakal@example.com',
+    targetAmount: '9500000 Tk.',
+    totalDonation: '12000 Tk.'
+  },
+  {
+    id: 7,
+    host: 'Samakal Foundation',
+    email: 'samakal@example.com',
     targetAmount: '9500000 Tk.',
     totalDonation: '12000 Tk.'
   }

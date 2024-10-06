@@ -19,9 +19,6 @@ export type WalnutTreeEvents = Array<{
   totalDonation: string
   targetAmount: string
   email: string
-  // info: Record<string, any>
-  // color?: string
-  // variant?: string
 }>
 withDefaults(
   defineProps<{

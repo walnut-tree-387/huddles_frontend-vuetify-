@@ -51,6 +51,7 @@ import IconRotate from '~icons/wt-light-arrows/rotate'
 import IconTrash from '~icons/wt-light-general/trash'
 import IconGridFilled from '~icons/wt-filled-grid-layouts/grid-circle'
 import IconSettings from '~icons/wt-light-general/settings'
+import IconRight from '~icons/wt-filled-arrows/angle-right-square'
 
 const iconsMap = {
   'wtl-angle-left-small': wtlAngleLeftSmall,
@@ -104,7 +105,8 @@ const iconsMap = {
   'mdi-plus': IconPlus,
   'mdi-refresh': IconRotate,
   'mdi-trash-can-outline': IconTrash,
-  'mdi-view-grid-outline': IconGridFilled
+  'mdi-view-grid-outline': IconGridFilled,
+  'mdi-proceed-right': IconRight
 }
 
 export type wtlIconModule = keyof typeof iconsMap
