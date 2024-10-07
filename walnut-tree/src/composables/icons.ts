@@ -52,9 +52,15 @@ import IconTrash from '~icons/wt-light-general/trash'
 import IconGridFilled from '~icons/wt-filled-grid-layouts/grid-circle'
 import IconSettings from '~icons/wt-light-general/settings'
 import IconRight from '~icons/wt-filled-arrows/angle-right-square'
+import IconBell from '~icons/wt-filled-general/bell'
+import IconUser from '~icons/wt-filled-users-people/user-star'
+import HuddleLogo from '~icons/wt-filled-chatting/chat-heart'
 
 const iconsMap = {
+  'wt-filled-chatting-chat-heart': HuddleLogo,
   'wtl-angle-left-small': wtlAngleLeftSmall,
+  'wtl-filled-users-people-user': IconUser,
+  'wtl-filled-general-bell': IconBell,
   'wtl-angle-right-small': wtlAngleRightSmall,
   'wtl-plus': wtlPlus,
   'wtl-search': wtlSearch,

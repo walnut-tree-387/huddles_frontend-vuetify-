@@ -1,94 +1,59 @@
 <template>
-    <nav class="navbar">
-      <div class="nav-logo">
-        <img class="logo-image" src='@/assets/logo.svg'/>
-        <span class="logo-text">Nilam</span>
-      </div>
-      <div class="empty-space"></div>
-      <nilam-navbar class="nilam-navbar"/> 
-    </nav>
-  </template>
-  
-  <script>
-  import NilamNavbar from '../components/NilamNavbar.vue';
-  
-  export default {
-    components: {
-      NilamNavbar
-    },
-    data() {
-      return {
-        menuItems: [
-          { text: "Films", link: "/films" },
-          { text: "Services", link: "/services" },
-        ],
-      };
-    },
-  };
-  </script>
+  <v-app-bar prominent class="navbar">
+    <div class="nav-title">
+      <HuddleLogo />
+      <span class="logo-text">Huddles</span>
+    </div>
+    <div class="empty-space"></div>
+    <div class="nav-icons">
+      <HuddlesNotificationButton />
+      <HuddleProfileButton />
+    </div>
+  </v-app-bar>
+</template>
+
+<script>
+import HuddleLogo from './buttons/HuddleLogo.vue'
+import HuddleProfileButton from './buttons/HuddleProfileButton.vue'
+import HuddlesNotificationButton from './buttons/HuddlesNotificationButton.vue'
+
+export default {
+  components: { HuddleLogo, HuddleProfileButton, HuddlesNotificationButton }
+}
+</script>
 
 <style>
-.nilam-navbar{
-    margin: 10px 10px 10px 10px;
-}
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+.nav-title {
   display: flex;
   align-items: center;
-  background-color: white;
-  color: rgb(0, 0, 0);
-  padding: 10px 0;
-  z-index: 1000;
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  margin-right: 20px;
   margin-left: 20px;
 }
 
-.logo-image {
-  width: 40px; 
-  height: 40px; 
-  margin-right: 10px;
-}
-
 .logo-text {
-  font-weight: bold;
-  font-size: medium;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Pacifico', cursive;
+  font-style: italic;
+  font-size: 20px;
+  margin-left: 10px;
 }
-
 .empty-space {
   flex-grow: 1;
 }
-
-.nav-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+.nav-icons {
   display: flex;
+  align-items: center;
+  margin-right: 20px;
 }
 
-.nav-item {
-  margin: 0 10px;
+.nav-icons > * {
+  margin-left: 15px;
 }
 
-.nav-link {
-  text-decoration: none;
-  color: white;
-}
-
-.social-icons {
-  font-size: 24px;
-  margin-right: 15px;
-}
-.person{
-  color: white;
+@media (max-width: 768px) {
+  .logo-text {
+    font-size: 18px;
+  }
+  .nav-icons > * {
+    margin-left: 10px;
+  }
 }
 </style>

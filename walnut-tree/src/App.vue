@@ -3,7 +3,7 @@
     <div class="root">
       <NavbarTop />
       <v-main>
-        <v-title>dsfsdf</v-title>
+        <v-title></v-title>
         <body>
           <router-view />
         </body>

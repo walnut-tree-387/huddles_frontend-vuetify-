@@ -1,6 +1,7 @@
 <template>
   <div class="about">
-    <walnut-tree-events
+    <WalnutTreeGroupCard />
+    <!-- <walnut-tree-events
       :title="'Ongoing Events'"
       variant="tonal"
       color="info"
@@ -8,7 +9,7 @@
       :headers="cardHeaders"
     />
     <WalnutTreePrimaryAddButton @click="showToast()" />
-    <WalnutToast />
+    <WalnutToast /> -->
     <!-- <WalnutUserAvatar color="green" /> -->
   </div>
   <!-- <WalnutTreeTableActionButton /> -->
@@ -22,6 +23,7 @@ import WalnutTreePrimaryAddButton from '../components/buttons/WalnutTreePrimaryA
 import WalnutTreeTableActionButton from '../components/buttons/WalnutTreeTableActionButton.vue'
 import WalnutTreeEvents from '@/components/WalnutTreeEvents.vue'
 import { useWalnutToast } from '@/composables/toast'
+import WalnutTreeGroupCard from '@/components/cards/WalnutTreeGroupCard.vue'
 const cardHeaders = [
   { key: 'host', name: 'Organizer', icon: 'mdi-account' },
   { key: 'email', name: 'Email', icon: 'mdi-email' },

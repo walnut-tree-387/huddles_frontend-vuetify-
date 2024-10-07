@@ -13,5 +13,10 @@ export default [
     path: '/profile',
     name: 'Profile',
     component: () => import('../views/ProfileView.vue')
+  },
+  {
+    path: '/huddles',
+    name: 'Huddle',
+    component: () => import('../views/HuddleView.vue')
   }
 ]
