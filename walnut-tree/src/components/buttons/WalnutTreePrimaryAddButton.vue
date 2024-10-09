@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import IconPlus from '~icons/wt-light-general/plus'
-withDefaults(defineProps<{ title?: string }>(), { title: 'Add' })
+withDefaults(defineProps<{ title?: string }>(), { title: 'Create' })
 </script>
 
 <template>

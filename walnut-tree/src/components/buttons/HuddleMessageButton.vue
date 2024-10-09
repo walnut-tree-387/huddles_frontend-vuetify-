@@ -7,7 +7,7 @@ withDefaults(
   defineProps<{
     icon?: wtlIconModule | FunctionalComponent<SVGAttributes, {}, any, {}>
   }>(),
-  { icon: 'wt-filled-chatting-chat-heart' }
+  { icon: 'wt-filled-messaging-message-plus' }
 )
 
 const { getIcon } = useIcons()
@@ -20,6 +20,5 @@ const { getIcon } = useIcons()
     :border="false"
     rounded="lg"
     color="primary"
-    disabled
   />
 </template>
