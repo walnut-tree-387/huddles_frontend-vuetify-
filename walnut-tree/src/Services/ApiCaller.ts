@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { useTokenStore } from '@/stores/autorizationToken'
 import type { AxiosResponse } from 'axios'
-
+const token = useTokenStore().getToken
 const baseURL = 'http://localhost:8083/api'
 
 interface ApiServiceParams {
@@ -24,8 +25,7 @@ export async function apiService<T>({
       params,
       data,
       headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdGF1cjM4NyIsInBhc3N3b3JkIjoiMTIzNDUiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiQ09NTU9ORVIifV0sImV4cCI6MTcyODUwMjc3MSwiaWF0IjoxNzI4NDU5NTcxLCJlbWFpbCI6ImF0YXVyLnN0dTIwMTZAanVuaXYuZWR1In0.GPjQlInCiAzMkrsNsesP60LUjIjHnM_-4_Txw5EJxj0'
+        Authorization: 'Bearer ' + token
       }
     })
     return response

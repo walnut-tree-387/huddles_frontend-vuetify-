@@ -1,6 +1,8 @@
 <template>
   <v-container fluid class="chat-window">
     <v-card class="pa-0" style="height: 100%">
+      <v-card-title style="text-align: center">{{ huddle?.name }}</v-card-title>
+      <v-divider></v-divider>
       <v-card-text class="messages-container">
         <div v-if="messages.length === 0" class="no-messages">
           Select a chat from the sidebar to start chatting.
@@ -35,19 +37,23 @@
         />
       </v-card-actions>
     </v-card>
+    <HuddleInfo :huddle="huddle" />
   </v-container>
 </template>
 
 <script>
+import { title } from 'process'
 import HuddleFileButton from '../buttons/HuddleFileButton.vue'
 import HuddleTextInput from '../inputs/HuddleTextInput.vue'
 import WalnutUserAvatar from '../WalnutUserAvatar.vue'
+import HuddleInfo from './HuddleInfo.vue'
+import { HuddleUserService } from '@/Services/HuddleUserService'
 
 export default {
   name: 'HuddleChatWindow',
-  components: { WalnutUserAvatar, HuddleFileButton, HuddleTextInput },
+  components: { WalnutUserAvatar, HuddleFileButton, HuddleTextInput, HuddleInfo },
   props: {
-    chat: {
+    huddle: {
       type: Object,
       default: null
     }

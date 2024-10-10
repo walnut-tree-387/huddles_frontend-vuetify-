@@ -1,24 +1,38 @@
 <script>
 import HuddleSideBar from './HuddleSideBar.vue'
 import HuddleChatWindow from './HuddleChatWindow.vue'
-import HuddleInfo from './HuddleInfo.vue'
 import { HuddleService } from '@/Services/HuddleService'
+import { UserService } from '@/Services/userService'
+import HuddleFriendsList from './HuddleFriendsList.vue'
 export default {
   components: {
     HuddleChatWindow,
-    HuddleInfo,
-    HuddleSideBar
+    HuddleSideBar,
+    HuddleFriendsList
   },
   data() {
     return {
       selectedHuddle: null,
-      huddles: []
+      huddles: [],
+      appUsers: []
     }
   },
   created() {
     this.getHuddles()
+    this.getUsers()
   },
   methods: {
+    addUserToHuddle(value) {
+      let body = {
+        uuid: this.selectedHuddle.uuid,
+        newUsers: value.map((uuid) => ({ uuid }))
+      }
+      try {
+        HuddleService.addUserToHuddle(body)
+      } catch (error) {
+        console.error('Error fetching huddles:', error)
+      }
+    },
     passHuddleToHuddleInfo(value) {
       this.selectedHuddle = value
     },
@@ -28,6 +42,14 @@ export default {
         this.huddles = response
       } catch (error) {
         console.error('Error fetching huddles:', error)
+      }
+    },
+    async getUsers() {
+      try {
+        const response = await UserService.getUsers()
+        this.appUsers = response
+      } catch (error) {
+        console.log('Error fetch the app users', error)
       }
     }
   }
@@ -41,10 +63,16 @@ export default {
           <HuddleSideBar :huddles="huddles" @huddle-clicked="passHuddleToHuddleInfo" />
         </v-col>
         <v-col cols="6">
-          <HuddleChatWindow />
+          <HuddleChatWindow :huddle="selectedHuddle" />
         </v-col>
         <v-col cols="4">
-          <HuddleInfo :v-if="selectedHuddle" :huddle="selectedHuddle" />
+          <HuddleFriendsList
+            :items="appUsers"
+            :enable-check-box="true"
+            :title="'User List'"
+            @user-selected="addUserToHuddle"
+            :enable-invite-btn="true"
+          />
         </v-col>
       </v-row>
     </v-container>
