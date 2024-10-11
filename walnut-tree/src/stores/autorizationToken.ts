@@ -5,7 +5,7 @@ interface TokenState {
 export const useTokenStore = defineStore('token', {
   state: (): TokenState => ({
     token:
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdGF1cjM4NyIsInBhc3N3b3JkIjoiMTIzNDUiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiQ09NTU9ORVIifV0sImV4cCI6MTcyODU3NDYxMSwiaWF0IjoxNzI4NTMxNDExLCJlbWFpbCI6ImF0YXVyLnN0dTIwMTZAanVuaXYuZWR1In0.KSC530HlMobJNYtRJxjKE7yfRr2epqfkMAq_2OuIv7E'
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYXptdWxAdHRjLmNvbSIsInBhc3N3b3JkIjoiMTIzNCIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJDT01NT05FUiJ9XSwiZXhwIjoxNzI4NzE1OTg5LCJpYXQiOjE3Mjg2NzI3ODksImVtYWlsIjoibmF6bXVsQHR0Yy5jb20ifQ.UBLuONfPT7fKJZqKQNaUcrlU4_-ERVjwzanUmcdqQ4Y'
   }),
 
   actions: {

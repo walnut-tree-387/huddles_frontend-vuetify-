@@ -17,6 +17,6 @@ export default [
   {
     path: '/huddles',
     name: 'Huddle',
-    component: () => import('../views/HuddleView.vue')
+    component: () => import('../views/HuddlesView.vue')
   }
 ]

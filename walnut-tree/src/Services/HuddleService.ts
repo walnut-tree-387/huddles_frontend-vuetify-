@@ -3,8 +3,10 @@ import { apiService } from './ApiCaller'
 import type { AxiosResponse } from 'axios'
 
 interface Huddle {
-  id: string
+  uuid: string
   name: string
+  avatar: string,
+  members: number
 }
 
 export class HuddleService {

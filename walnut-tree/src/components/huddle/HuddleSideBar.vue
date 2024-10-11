@@ -33,12 +33,13 @@
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import WalnutTreePrimaryAddButton from '../buttons/WalnutTreePrimaryAddButton.vue'
 import HuddleChatCard from '../huddle/HuddleChatCard.vue'
 import HuddleChatWindow from '../huddle/HuddleChatWindow.vue'
-import { HuddleService } from '@/Services/HuddleService'
-export default {
+import { HuddleService } from '../../Services/HuddleService.js'
+import { defineComponent } from 'vue';
+export default defineComponent({
   components: { HuddleChatCard, HuddleChatWindow, WalnutTreePrimaryAddButton },
   props: {
     huddles: {
@@ -87,7 +88,7 @@ export default {
       }
     }
   }
-}
+});
 </script>
 
 <style scoped>
