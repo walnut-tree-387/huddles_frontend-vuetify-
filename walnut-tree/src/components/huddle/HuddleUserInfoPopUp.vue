@@ -14,7 +14,7 @@ import { useTokenStore } from '../../stores/autorizationToken.js';
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import HuddlePopUpCloseButton from '../buttons/HuddlePopUpCloseButton.vue'
-
+import { useWalnutToast } from '../../composables/toast.js';
 export default defineComponent({
   components : {HuddlePopUpCloseButton},
   props: {
@@ -26,11 +26,18 @@ export default defineComponent({
   setup(props, { emit }) {
     const router = useRouter();
     const user = loggedInUserStore().getUser;
-
+    const { showError, showSuccess } = useWalnutToast();
+    const showToast = () => {
+      showError('This is a sample Toast');
+    };
     const logout = () => {
       useTokenStore().clearToken();
       loggedInUserStore().clearUser();
       close();
+      showSuccess('Log out successful! Redirecting to Login...');
+      setTimeout(() => {
+        router.push('/huddles/login');
+      }, 2000);
       router.push('/huddles/login');
     };
 
@@ -39,6 +46,8 @@ export default defineComponent({
     };
 
     return {
+      showSuccess,
+      showError,
       user,
       logout,
       close

@@ -30,7 +30,7 @@
       </v-list>
     </div>
     <v-divider></v-divider>
-    <WalnutTreePrimaryAddButton />
+    <WalnutTreePrimaryAddButton :title="'Start a Huddle'" style="margin: 10px 0 0 20px"/>
   </v-navigation-drawer>
 </template>
 

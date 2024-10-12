@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ToastType } from '@/composables/toast'
+import type { ToastType } from '../../composables/toast.js'
 import IconCheckCircle from '~icons/wt-light-general/check-circle'
 import IconExclamationCircle from '~icons/wt-light-sign-controls/exclamation-circle'
 import IconTriangleExclamation from '~icons/wt-light-sign-controls/triangle-exclamation'

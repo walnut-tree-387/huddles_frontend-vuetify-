@@ -19,14 +19,6 @@
                     required
                 ></v-text-field>
                 <v-btn size="small" :disabled="!valid" @click="login" color="primary">Login</v-btn>
-                <v-alert
-                    v-if="error"
-                    type="error"
-                    dismissible
-                    class="mt-3"
-                >
-                    {{ error }}
-                </v-alert>
             </v-form>
         </v-card-text>
     </v-card>
@@ -35,11 +27,29 @@
 <script lang="ts">
 import { LoginService } from '@/Services/HuddleLoginService.js';
 import { defineComponent } from 'vue';
-import { loggedInUserStore }  from '../../stores/loggedInUser.js'
+import { loggedInUserStore }  from '../../stores/loggedInUser.js';
+import { useWalnutToast } from '../../composables/toast.js';
 
 export default defineComponent({
+    components : {  },
+    setup() {
+        const { showError, showSuccess } = useWalnutToast();
+        const showToast = () => {
+            showError('This is a sample Toast');
+        };
+        return {
+            showSuccess, 
+            showToast,
+            showError
+        };
+    },
     data() {
         return {
+            loginToast: {
+                type: 'error',
+                toastId: null,
+                message: '',
+            },
             email: '',
             password: '',
             valid: false,
@@ -64,9 +74,14 @@ export default defineComponent({
                         password: this.password,
                     }
                     const loginResponse = await LoginService.login(requestBody);
-                    loggedInUserStore().setUser(loginResponse)
-                    this.$router.push('/huddles');
+                    loggedInUserStore().setUser(loginResponse);
+                    this.showSuccess('Login successful! Redirecting to huddles...');
+                    setTimeout(() => {
+                        this.$router.push('/huddles');
+                    }, 2000); 
+
                 } catch (err) {
+                    this.showError('Login Failed')
                     this.error = 'Invalid email or password';
                 }
             }

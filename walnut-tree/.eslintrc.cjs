@@ -12,7 +12,7 @@ module.exports = {
   },
   rules: {
     'vue/custom-event-name-casing': ['error', {
-      ignores: ['v-list-item-content', 'v-list-item-group', 'v-list-item-avatar']
+      ignores: ['v-list-item-content', 'v-list-item-group', 'v-list-item-avatar', 'v-cl']
     }]
   },
   overrides: [
@@ -25,7 +25,7 @@ module.exports = {
       },
       rules: {
         'vue/no-reserved-component-names': ['error', {
-          isCustomElement: (tag) => ['v-list-item-content', 'v-list-item-group', 'v-list-item-avatar'].includes(tag)
+          isCustomElement: (tag) => ['v-list-item-content', 'v-list-item-group', 'v-list-item-avatar', 'v-cl'].includes(tag)
         }]
       }
     }
