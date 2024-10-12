@@ -23,5 +23,10 @@ export default [
     path: '/huddles/login',
     name: 'Huddle Login',
     component: () => import('../views/HuddleLoginView.vue')
+  },
+  {
+    path: '/huddles/:uuid',
+    name: 'Huddle Page',
+    component: () => import('../views/HuddleView.vue')
   }
 ]

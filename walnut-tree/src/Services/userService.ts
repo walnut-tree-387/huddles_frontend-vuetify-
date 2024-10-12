@@ -8,10 +8,10 @@ interface User {
   userName: string
 }
 export class UserService {
-  static async getUsers(uuid: string): Promise<User[]> {
+  static async getUsersNotInTheHuddle(uuid: string): Promise<User[]> {
     try {
       const response: AxiosResponse<User[]> = await apiService<User[]>({
-        endpoint: '/users',
+        endpoint: '/users/filter-by-huddle/' + uuid,
         method: 'GET'
       })
       return response.data

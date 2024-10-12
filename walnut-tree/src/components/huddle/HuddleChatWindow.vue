@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="chat-window">
-    <v-card class="pa-0" style="height: 100%">
+    <v-card class="pa-0 chat-card">
       <v-card-title style="text-align: center">{{ huddle?.name }}</v-card-title>
       <v-divider></v-divider>
       <v-card-text class="messages-container">
@@ -37,18 +37,17 @@
         />
       </v-card-actions>
     </v-card>
-    <HuddleInfo :huddle="huddle" />
+    <HuddleInfo class="huddle-info" :huddle="huddle" :huddle-users="huddleUsers" @fetch-app-users="sendEmitToParent"/>
   </v-container>
 </template>
 
-<script>
-import { title } from 'process'
+<script lang="ts">
 import HuddleFileButton from '../buttons/HuddleFileButton.vue'
 import HuddleTextInput from '../inputs/HuddleTextInput.vue'
 import WalnutUserAvatar from '../WalnutUserAvatar.vue'
-import HuddleInfo from './HuddleInfo.vue'
-import { HuddleUserService } from '@/Services/HuddleUserService'
-
+import HuddleInfo from '../huddle/HuddleInfo.vue'
+import { HuddleService } from '../../Services/HuddleService.js'
+import { useRoute } from 'vue-router'
 export default {
   name: 'HuddleChatWindow',
   components: { WalnutUserAvatar, HuddleFileButton, HuddleTextInput, HuddleInfo },
@@ -56,7 +55,14 @@ export default {
     huddle: {
       type: Object,
       default: null
+    },
+    huddleUsers: {
+      type: Array,
+      default: []
     }
+  },
+  created() {
+    this.getHuddle();
   },
   data() {
     return {
@@ -109,6 +115,20 @@ export default {
     }
   },
   methods: {
+    sendEmitToParent(){
+      this.$emit('fetch-app-users')
+      console.log('Event passed in Chat window');
+    },
+    async getHuddle(){
+      try{
+        const route = useRoute(); 
+        const uuid = route.params.uuid; 
+        const routedHuddle = await HuddleService.getHuddle(uuid);
+        this.$emit('update:huddle', routedHuddle);
+      }catch(error){
+        throw new Error(error);
+      }
+    },
     sendMessage() {
       if (this.messageInput.trim()) {
         this.messages.push({
@@ -184,5 +204,12 @@ export default {
 }
 .send-message-input .v-input__control .v-field .v-field__field input {
   padding: inherit;
+}
+.huddle-info{
+  position: relative;
+}
+.chat-card{
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 </style>

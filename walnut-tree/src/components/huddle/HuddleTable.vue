@@ -53,7 +53,7 @@
     </v-data-table>
     
     <nilam-pagination 
-      :total-items="items?.values?.length"
+      :total-items="totalItems"
       :per-page-options="perPageOptions"
       :current-page="currentPage"
       :per-page="itemsPerPage"
@@ -68,8 +68,10 @@ import { defineComponent, ref, computed, onMounted } from 'vue';
 import { HuddleService } from '@/Services/HuddleService.js';
 import NilamPagination from '../NilamPagination.vue';
 import { loggedInUserStore } from '../../stores/loggedInUser.js';
-
+import { useRouter, useRoute } from 'vue-router';
+import router from '@/router/index.js';
 interface HuddleItem {
+  uuid: string;
   name: string;
   avatar: string;
   members: number;
@@ -82,11 +84,11 @@ export default defineComponent({
 
   setup() {
     const items = ref<HuddleItem[]>([
-      { name: 'Nebula GTX 3080', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvO7gxvNauOgRKwfZdHiM6f-DyO7IHkOgQXw&s', members: 699 },
-      { name: 'Galaxy RTX 3080', avatar: 'https://cdn3.vectorstock.com/i/1000x1000/67/87/people-avatars-community-group-vector-10776787.jpg', members: 234 },
-      { name: 'Orion RX 6800 XT', avatar: '3.png', members: 123 },
-      { name: 'Vortex RTX 3090', avatar: '4.png', members: 267 },
-      { name: 'Cosmos GTX 1660 Super', avatar: '5.png', members: 223 },
+      { uuid: null, name: 'Nebula GTX 3080', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvO7gxvNauOgRKwfZdHiM6f-DyO7IHkOgQXw&s', members: 699 },
+      { uuid: null, name: 'Galaxy RTX 3080', avatar: 'https://cdn3.vectorstock.com/i/1000x1000/67/87/people-avatars-community-group-vector-10776787.jpg', members: 234 },
+      { uuid: null, name: 'Orion RX 6800 XT', avatar: '3.png', members: 123 },
+      { uuid: null, name: 'Vortex RTX 3090', avatar: '4.png', members: 267 },
+      { uuid: null, name: 'Cosmos GTX 1660 Super', avatar: '5.png', members: 223 },
     ]);
 
     const headers = [
@@ -101,9 +103,9 @@ export default defineComponent({
     const currentPage = ref(1);
     const perPageOptions = [2, 3, 5];
     const hopIn = (item: HuddleItem) => {
-      console.log(`Hopping into ${item.name}`);
+      router.push('/huddles/' + item.uuid)
     };
-
+    const totalItems = computed(() => items.value.length);
     const paginatedItems = computed(() => {
       const start = (currentPage.value - 1) * itemsPerPage.value;
       const end = start + itemsPerPage.value;
@@ -125,6 +127,7 @@ export default defineComponent({
       try {
         const fetchedItems = await HuddleService.getHuddles();
         items.value = fetchedItems;
+        console.log(items.value.length)
       } catch (error) {
         console.error('Error fetching huddles:', error);
       }
@@ -141,6 +144,7 @@ export default defineComponent({
       }
     });
     return {
+      totalItems,
       items,
       search,
       itemsPerPage,

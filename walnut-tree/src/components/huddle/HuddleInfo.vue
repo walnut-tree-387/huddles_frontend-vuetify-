@@ -1,12 +1,12 @@
 <template>
   <div class="huddle-info-root">
-    <HuddleFriendsList :title="'Huddle Members'" :items="userList" />
+    <HuddleFriendsList :title="'Huddle Members'" :items="userList" :remove-icon="true" @user-removed="getHuddleUsers"/>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import WalnutUserAvatar from '../WalnutUserAvatar.vue'
-import { HuddleUserService } from '@/Services/HuddleUserService'
+import { HuddleUserService } from '../../Services/HuddleUserService.js'
 import HuddleFriendsList from './HuddleFriendsList.vue'
 
 export default {
@@ -14,9 +14,17 @@ export default {
     huddle: {
       type: Object,
       default: null
+    }, huddleUsers: {
+      type: Array,
+      default: []
     }
   },
   watch: {
+    huddleUsers(newVal, oldVal){
+      if(newVal){
+        this.userList = newVal;
+      }
+    },
     huddle(newVal, oldVal) {
       console.log('Huddle changed:', { newVal, oldVal })
       if (newVal) {
@@ -30,7 +38,9 @@ export default {
     async getHuddleUsers() {
       try {
         const response = await HuddleUserService.getHuddleUsers(this.huddle?.uuid)
-        this.userList = response
+        this.userList = response;
+        console.log('Event passed in Huddle Info');
+        this.$emit('fetch-app-users');
       } catch (error) {
         console.error('Error fetching huddles:', error)
       }
@@ -51,6 +61,6 @@ export default {
 .huddle-info-root {
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  margin-top: 15px;
 }
 </style>

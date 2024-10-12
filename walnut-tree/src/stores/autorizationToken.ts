@@ -4,13 +4,15 @@ interface TokenState {
 }
 export const useTokenStore = defineStore('token', {
   state: (): TokenState => ({
-    token:
-      ''
+    token: localStorage.getItem('token')
   }),
 
   actions: {
     setToken(newToken: string | null) {
       this.token = newToken
+      if(newToken){
+        localStorage.setItem('token', newToken);
+      }
     },
     clearToken() {
       this.token = null

@@ -9,18 +9,21 @@ interface LoggedInUserState {
 
 export const loggedInUserStore = defineStore('loggedInUser', {
   state: (): LoggedInUserState => ({
-    token: null,
+    token: localStorage.getItem('token'),
     uuid: null,
-    name: null,
+    name: localStorage.getItem('name'),
     email: null,
   }),
 
   actions: {
     setUser(newUser: LoggedInUserState) {
-      this.token = newUser.token;
       this.uuid = newUser.uuid;
       this.name = newUser.name;
       this.email = newUser.email;
+      if(this.name){
+        this.token = newUser.token;
+        localStorage.setItem('name', this.name)
+      }
     },
     clearUser() {
       this.token = null;

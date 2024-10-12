@@ -50,10 +50,8 @@ export default defineComponent({
 <style scoped>
 .popup-backdrop {
   position: fixed;
-  top: 4;
-  left: 100;
   right: 0;
-  bottom: 100;
+  margin-right: 10px;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -71,7 +69,7 @@ export default defineComponent({
   background-color: white;
   padding: 40px;
   border-radius: 8px;
-  min-width: 300px;
+  min-width: 200px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }

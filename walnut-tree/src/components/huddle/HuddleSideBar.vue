@@ -1,5 +1,6 @@
 <template>
   <v-navigation-drawer app>
+    <span v-text="'Huddles I am in..'" style="font-size: large; font-weight: bolder;"></span>
     <v-text-field
       v-model="searchTerm"
       prepend-inner-icon="mdi-magnify"
@@ -71,18 +72,18 @@ export default defineComponent({
       }
     }
   },
-  // created() {
-  //   this.getHuddles()
-  // },
+  created() {
+    this.getMyHuddles()
+  },
   methods: {
     selectHuddle(index) {
       this.selectedHuddle = this.huddles[index]
       this.$emit('huddle-clicked', this.selectedHuddle)
     },
-    async getHuddles() {
+    async getMyHuddles() {
       try {
-        const response = await HuddleService.getHuddles()
-        this.huddleList = response
+        const response = await HuddleService.getMyHuddles()
+        this.huddleList = response;
       } catch (error) {
         console.error('Error fetching huddles:', error)
       }

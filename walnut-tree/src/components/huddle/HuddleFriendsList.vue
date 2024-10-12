@@ -1,6 +1,7 @@
 <template>
-  <v-card class="mx-auto huddle-list-card" max-width="500">
+  <v-card class="mx-auto huddle-list-card" :style="{ width: removeIcon ? '100%' : '90%' }">
     <v-card-title style="text-align: center"> {{ title }} </v-card-title>
+    <v-divider></v-divider>
     <v-list shaped dense>
       <v-list-item-group v-model="model" multiple>
         <template v-for="(item, i) in items" :key="`item-${i}`">
@@ -17,6 +18,11 @@
                   <v-list-item-title v-text="item.name" class="truncate"></v-list-item-title>
                 </v-list-item-content>
               </v-col>
+              <v-cl cols="2" class="d-flex ml-10" v-if="removeIcon">
+                <v-list-item-action>
+                  <HuddleRemoveButton @click="() => removeUserFromHuddle(item.memberUuid)"/>
+                </v-list-item-action>
+              </v-cl>
               <v-col cols="2" class="d-flex" v-if="enableCheckBox">
                 <v-list-item-action>
                   <v-checkbox
@@ -38,16 +44,22 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
 import WalnutTreePrimaryAddButton from '../buttons/WalnutTreePrimaryAddButton.vue'
 import WalnutUserAvatar from '../WalnutUserAvatar.vue'
-
+import HuddleRemoveButton from '../buttons/HuddleRemoveButton.vue'
+import { HuddleService } from '../../Services/HuddleService.js'
+import { useRoute } from 'vue-router'
 export default {
   name: 'HuddleFriendsList',
   props: {
     items: {
       type: Array,
-      default: []
+      default: () => []
+    },
+    removeIcon: {
+      type: Boolean,
+      default: false
     },
     enableCheckBox: {
       type: Boolean,
@@ -62,24 +74,43 @@ export default {
       default: 'Title'
     }
   },
-  components: { WalnutTreePrimaryAddButton, WalnutUserAvatar },
+  components: { WalnutTreePrimaryAddButton, WalnutUserAvatar, HuddleRemoveButton },
   data() {
     return {
       model: []
     }
   },
   methods: {
-    toggleItem(id) {
-      const index = this.model.indexOf(id)
+    async removeUserFromHuddle(userUuid: any) {
+      const route = this.$route; 
+      const huddleUuid = route?.params?.uuid;
+
+      if (!huddleUuid || !userUuid) {
+        console.error('Huddle UUID or User UUID is undefined', huddleUuid, userUuid);
+        return;
+      }
+
+      try {
+        const status = await HuddleService.removeUserFromHuddle(huddleUuid, userUuid);
+        if(status === 200){
+          this.$emit('user-removed');
+        }
+      } catch (error) {
+        console.error('Error removing user from huddle:', error);
+      }
+    },
+    toggleItem(id : any) {
+      const index = this.model.indexOf(id);
       if (index === -1) {
-        this.model.push(id)
+        this.model.push(id);
       } else {
-        this.model.splice(index, 1)
+        this.model.splice(index, 1);
       }
     },
     passSelectedUsers() {
-      console.log(this.model)
-      this.$emit('user-selected', this.model)
+      console.log(this.model);
+      this.$emit('user-selected', this.model);
+      this.model = [];
     }
   }
 }
@@ -89,7 +120,6 @@ export default {
 .huddle-list-card {
   border-radius: 15px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
 }
 
 .huddle-list-item {

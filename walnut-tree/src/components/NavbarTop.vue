@@ -43,12 +43,6 @@ export default defineComponent({
 };
 
     onMounted(() => {
-      loggedInUserStore().setUser({
-        token: 'fake-token',
-        uuid: 'user-uuid',
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-      });
     });
 
     return {
