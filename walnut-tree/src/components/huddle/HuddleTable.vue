@@ -53,7 +53,7 @@
     </v-data-table>
     
     <nilam-pagination 
-      :total-items="items.length"
+      :total-items="items?.values?.length"
       :per-page-options="perPageOptions"
       :current-page="currentPage"
       :per-page="itemsPerPage"
@@ -63,10 +63,11 @@
   </v-card>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { HuddleService } from '@/Services/HuddleService.js';
-import NilamPagination from '../NilamPagination.vue'
+import NilamPagination from '../NilamPagination.vue';
+import { loggedInUserStore } from '../../stores/loggedInUser.js';
 
 interface HuddleItem {
   name: string;
@@ -74,59 +75,84 @@ interface HuddleItem {
   members: number;
 }
 
-const items = ref<HuddleItem[]>([
-  { name: 'Nebula GTX 3080', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvO7gxvNauOgRKwfZdHiM6f-DyO7IHkOgQXw&s', members: 699 },
-  { name: 'Galaxy RTX 3080', avatar: 'https://cdn3.vectorstock.com/i/1000x1000/67/87/people-avatars-community-group-vector-10776787.jpg', members: 234 },
-  { name: 'Orion RX 6800 XT', avatar: '3.png', members: 123 },
-  { name: 'Vortex RTX 3090', avatar: '4.png', members: 267 },
-  { name: 'Cosmos GTX 1660 Super', avatar: '5.png', members: 223 },
-]);
+export default defineComponent({
+  components: {
+    NilamPagination
+  },
 
-const headers = [
-  { text: 'Name', value: 'name', sortable: false },
-  { text: 'Avatar', value: 'avatar', sortable: false },
-  { text: 'Members', value: 'members', sortable: false },
-  { text: 'Action', value: 'action', sortable: false }  
-];
+  setup() {
+    const items = ref<HuddleItem[]>([
+      { name: 'Nebula GTX 3080', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvO7gxvNauOgRKwfZdHiM6f-DyO7IHkOgQXw&s', members: 699 },
+      { name: 'Galaxy RTX 3080', avatar: 'https://cdn3.vectorstock.com/i/1000x1000/67/87/people-avatars-community-group-vector-10776787.jpg', members: 234 },
+      { name: 'Orion RX 6800 XT', avatar: '3.png', members: 123 },
+      { name: 'Vortex RTX 3090', avatar: '4.png', members: 267 },
+      { name: 'Cosmos GTX 1660 Super', avatar: '5.png', members: 223 },
+    ]);
 
-const search = ref('');
-const itemsPerPage = ref(2);
-const currentPage = ref(1);
-const perPageOptions = [2, 3, 5];
+    const headers = [
+      { text: 'Name', value: 'name', sortable: false },
+      { text: 'Avatar', value: 'avatar', sortable: false },
+      { text: 'Members', value: 'members', sortable: false },
+      { text: 'Action', value: 'action', sortable: false }  
+    ];
 
-const hopIn = (item: HuddleItem) => {
-  console.log(`Hopping into ${item.name}`);
-};
-const paginatedItems = computed(() => {
+    const search = ref('');
+    const itemsPerPage = ref(2);
+    const currentPage = ref(1);
+    const perPageOptions = [2, 3, 5];
+    const hopIn = (item: HuddleItem) => {
+      console.log(`Hopping into ${item.name}`);
+    };
+
+    const paginatedItems = computed(() => {
       const start = (currentPage.value - 1) * itemsPerPage.value;
       const end = start + itemsPerPage.value;
       return items.value.slice(start, end);
     });
 
-const handlePaginationAction = (action: string) => {
-  if (action === 'previous' && currentPage.value > 1) {
-    currentPage.value--;
-  } else if (action === 'next') {
-    const totalPages = Math.ceil(items.value.length / itemsPerPage.value);
-    if (currentPage.value < totalPages) {
-      currentPage.value++;
-    }
-  }
-};
-const getHuddles = async () => {
-  try {
-    const fetchedItems = await HuddleService.getHuddles();
-    items.value = fetchedItems;
-  } catch (error) {
-    console.error('Error fetching huddles:', error);
-  }
-};
-const handleUpdatePerPage = (newPerPage: number) => {
-  itemsPerPage.value = newPerPage;
-  currentPage.value = 1;
-};
-onMounted(() => {
-  getHuddles();
+    const handlePaginationAction = (action: string) => {
+      if (action === 'previous' && currentPage.value > 1) {
+        currentPage.value--;
+      } else if (action === 'next') {
+        const totalPages = Math.ceil(items.value.length / itemsPerPage.value);
+        if (currentPage.value < totalPages) {
+          currentPage.value++;
+        }
+      }
+    };
+
+    const getHuddles = async () => {
+      try {
+        const fetchedItems = await HuddleService.getHuddles();
+        items.value = fetchedItems;
+      } catch (error) {
+        console.error('Error fetching huddles:', error);
+      }
+    };
+
+    const handleUpdatePerPage = (newPerPage: number) => {
+      itemsPerPage.value = newPerPage;
+      currentPage.value = 1;
+    };
+    onMounted(async () => {
+      const user = loggedInUserStore().getUser;
+      if (user) {
+        await getHuddles();
+      }
+    });
+    return {
+      items,
+      search,
+      itemsPerPage,
+      currentPage,
+      perPageOptions,
+      paginatedItems,
+      headers,
+      hopIn,
+      handlePaginationAction,
+      handleUpdatePerPage,
+    };
+  },
 });
 </script>
 

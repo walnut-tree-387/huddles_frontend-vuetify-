@@ -18,5 +18,10 @@ export default [
     path: '/huddles',
     name: 'Huddle',
     component: () => import('../views/HuddlesView.vue')
+  },
+  {
+    path: '/huddles/login',
+    name: 'Huddle Login',
+    component: () => import('../views/HuddleLoginView.vue')
   }
 ]

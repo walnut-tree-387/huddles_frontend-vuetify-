@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { useTokenStore } from '@/stores/autorizationToken'
 import type { AxiosResponse } from 'axios'
-const token = useTokenStore().getToken
-const baseURL = 'http://localhost:8083/api'
+const baseURL = 'http://localhost:8083/api/'
 
 interface ApiServiceParams {
   endpoint: string
@@ -18,6 +17,7 @@ export async function apiService<T>({
   params = {}
 }: ApiServiceParams): Promise<AxiosResponse<T>> {
   try {
+    const token = useTokenStore().getToken;
     const response = await axios({
       baseURL,
       url: endpoint,
@@ -27,6 +27,29 @@ export async function apiService<T>({
       headers: {
         Authorization: 'Bearer ' + token
       }
+    })
+    return response
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`API call failed: ${error.response?.data || error.message}`)
+    }
+    throw new Error(`API call failed: ${error}`)
+  }
+}
+
+export async function apiServiceWithoutToken<T>({
+  endpoint,
+  method,
+  data = {},
+  params = {}
+}: ApiServiceParams): Promise<AxiosResponse<T>> {
+  try {
+    const response = await axios({
+      baseURL,
+      url: endpoint,
+      method,
+      params,
+      data,
     })
     return response
   } catch (error) {

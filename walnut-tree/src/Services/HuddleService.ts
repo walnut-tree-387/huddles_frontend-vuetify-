@@ -1,7 +1,6 @@
 import { da } from 'vuetify/locale'
 import { apiService } from './ApiCaller'
 import type { AxiosResponse } from 'axios'
-
 interface Huddle {
   uuid: string
   name: string
