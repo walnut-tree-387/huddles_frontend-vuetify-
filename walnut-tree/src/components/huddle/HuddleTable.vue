@@ -47,11 +47,15 @@
 
       <template v-slot:item.action="{ item }">
         <div class="text-end">
-          <v-btn size="small" class="mx-4 my-2" color="primary" @click="hopIn(item)">Hop In</v-btn>
+          <v-btn v-text="item.isLoggedInUserAMember ? 'Hop In' : 'Request'" size="small"
+           class="mx-4 my-2" 
+           :color="item.isLoggedInUserAMember ? 'green' : 'primary'" 
+           @click="hopIn(item)">
+          </v-btn>
         </div>
       </template>
     </v-data-table>
-    
+    <v-divider></v-divider>
     <nilam-pagination 
       :total-items="totalItems"
       :per-page-options="perPageOptions"
@@ -75,6 +79,7 @@ interface HuddleItem {
   name: string;
   avatar: string;
   members: number;
+  isLoggedInUserAMember: Boolean;
 }
 
 export default defineComponent({
@@ -83,13 +88,7 @@ export default defineComponent({
   },
 
   setup() {
-    const items = ref<HuddleItem[]>([
-      { uuid: null, name: 'Nebula GTX 3080', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvO7gxvNauOgRKwfZdHiM6f-DyO7IHkOgQXw&s', members: 699 },
-      { uuid: null, name: 'Galaxy RTX 3080', avatar: 'https://cdn3.vectorstock.com/i/1000x1000/67/87/people-avatars-community-group-vector-10776787.jpg', members: 234 },
-      { uuid: null, name: 'Orion RX 6800 XT', avatar: '3.png', members: 123 },
-      { uuid: null, name: 'Vortex RTX 3090', avatar: '4.png', members: 267 },
-      { uuid: null, name: 'Cosmos GTX 1660 Super', avatar: '5.png', members: 223 },
-    ]);
+    const items = ref<HuddleItem[]>([]);
 
     const headers = [
       { text: 'Name', value: 'name', sortable: false },
@@ -99,7 +98,7 @@ export default defineComponent({
     ];
 
     const search = ref('');
-    const itemsPerPage = ref(2);
+    const itemsPerPage = ref(5);
     const currentPage = ref(1);
     const perPageOptions = [2, 3, 5];
     const hopIn = (item: HuddleItem) => {
@@ -161,5 +160,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 </style>

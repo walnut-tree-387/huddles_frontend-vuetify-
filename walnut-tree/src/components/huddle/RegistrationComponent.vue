@@ -3,10 +3,25 @@
         <v-card-text>
             <v-form class="login-form" ref="form" v-model="valid" lazy-validation>
                 <div style="width: 300px;"><v-text-field
-                    v-model="userName"
-                    label="Username"
+                    v-model="email"
+                    :rules="emailRules"
+                    label="Email"
                     required 
                 ></v-text-field></div>
+                <v-text-field 
+                    v-model="name" 
+                    label="Name" 
+                    type="text" 
+                    reqired
+                >
+                </v-text-field>
+                <v-text-field 
+                    v-model="userName" 
+                    label="Username" 
+                    type="text" 
+                    reqired
+                >
+                </v-text-field>
                 <v-text-field
                     v-model="password"
                     :rules="passwordRules"
@@ -14,7 +29,7 @@
                     type="password"
                     required
                 ></v-text-field>
-                <v-btn size="small" :disabled="!valid" @click="login" color="primary">Login</v-btn>
+                <v-btn size="small" :disabled="!valid" @click="register" color="green">Register</v-btn>
             </v-form>
         </v-card-text>
     </v-card>
@@ -46,7 +61,9 @@ export default defineComponent({
                 toastId: null,
                 message: '',
             },
+            name: '',
             userName: '',
+            email: '',
             password: '',
             valid: false,
             error: '',
@@ -61,21 +78,19 @@ export default defineComponent({
         };
     },
     methods: {
-        async login() {
+        async register() {
             this.error = '';
             if (this.$refs.form.validate()) {
                 try {
                     let requestBody = {
+                        name: this.name,
+                        email: this.email,
                         userName: this.userName,
                         password: this.password,
                     }
-                    const loginResponse = await LoginService.login(requestBody);
-                    loggedInUserStore().setUser(loginResponse);
-                    this.showSuccess('Login successful! Redirecting to huddles...');
-                    setTimeout(() => {
-                        this.$router.push('/huddles');
-                    }, 2000); 
-
+                    const loginResponse = await LoginService.registration(requestBody);
+                    this.showSuccess('Registration successful! Redirecting to Login...');
+                    this.$emit('success');
                 } catch (err) {
                     this.showError(err.message)
                 }

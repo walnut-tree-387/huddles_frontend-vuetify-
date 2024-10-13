@@ -14,7 +14,7 @@
             <LoginComponent />
             </v-window-item>
             <v-window-item :value="2">
-                Register
+                <RegistrationComponent @success="activeTab = 1"/>
             </v-window-item>
         </v-window>
     </v-card>
@@ -23,10 +23,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import LoginComponent from '../huddle/LoginComponent.vue'
+import RegistrationComponent from '../huddle/RegistrationComponent.vue'
 import NilamUserInformation from '@/components/NilamUserInformation.vue';
 export default defineComponent({
     components: {
-        LoginComponent,
+        LoginComponent, RegistrationComponent
     },
     data() {
         return {

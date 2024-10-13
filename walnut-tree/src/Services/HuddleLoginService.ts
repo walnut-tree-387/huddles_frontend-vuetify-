@@ -22,4 +22,16 @@ export class LoginService {
       throw new Error(`Failed to fetch huddle user: ${error}`)
     }
   }
+  static async registration(loginRequest: Object): Promise<number> {
+    try {
+      const response: AxiosResponse<void> = await apiServiceWithoutToken<void>({
+        endpoint: 'users/register',
+        method: 'POST',
+        data: loginRequest
+      })
+      return response.status;
+    } catch (error) {
+      throw new Error(`Failed to fetch huddle user: ${error}`)
+    }
+  }
 }
