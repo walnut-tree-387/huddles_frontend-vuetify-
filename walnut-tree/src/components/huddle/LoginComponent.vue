@@ -1,8 +1,5 @@
 <template>
     <v-card class="login-card">
-        <v-card-title>
-            <h2>Login</h2>
-        </v-card-title>
         <v-card-text>
             <v-form class="login-form" ref="form" v-model="valid" lazy-validation>
                 <div style="width: 300px;"><v-text-field
@@ -81,8 +78,7 @@ export default defineComponent({
                     }, 2000); 
 
                 } catch (err) {
-                    this.showError('Login Failed')
-                    this.error = 'Invalid email or password';
+                    this.showError(err.message)
                 }
             }
         },
@@ -93,7 +89,7 @@ export default defineComponent({
 <style scoped>
 .login-card {
     max-width: 400px;
-    margin: 50px auto;
+    margin: 20px auto;
     padding: 20px;
 }
 

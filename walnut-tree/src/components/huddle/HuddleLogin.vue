@@ -6,8 +6,8 @@
             v-model="activeTab"
             class="tabs-style"
         >
-            <v-tab :value="1">Login</v-tab>
-            <v-tab :value="2">New Registration</v-tab>
+            <v-tab :value="1"><strong>Login</strong></v-tab>
+            <v-tab :value="2"><strong>Registration</strong></v-tab>
         </v-tabs>
         <v-window class="tab-window" v-model="activeTab">
             <v-window-item :value="1">

@@ -117,7 +117,6 @@ export default {
   methods: {
     sendEmitToParent(){
       this.$emit('fetch-app-users')
-      console.log('Event passed in Chat window');
     },
     async getHuddle(){
       try{

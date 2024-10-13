@@ -57,14 +57,14 @@ export class HuddleService {
       throw new Error(`Failed to remove users from the huddles: ${error}`)
     }
   }
-  static async createHuddle(huddleData: Omit<Huddle, 'id'>): Promise<Huddle> {
+  static async createHuddle(huddleData: Object): Promise<number> {
     try {
       const response: AxiosResponse<Huddle> = await apiService<Huddle>({
         endpoint: '/huddles',
         method: 'POST',
         data: huddleData
       })
-      return response.data
+      return response.status;
     } catch (error) {
       throw new Error(`Failed to create huddle: ${error}`)
     }

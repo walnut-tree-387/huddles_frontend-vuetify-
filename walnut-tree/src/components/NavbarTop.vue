@@ -26,8 +26,8 @@ import { loggedInUserStore } from '../stores/loggedInUser.js';
 import HuddleUserInfoPopUp from '../components/huddle/HuddleUserInfoPopUp.vue';
 import HuddleProfileButton from './buttons/HuddleProfileButton.vue';
 import HuddlesNotificationButton from './buttons/HuddlesNotificationButton.vue';
-import { defineComponent, ref, onMounted, computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { defineComponent, ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 export default defineComponent({
   components: { HuddleLogo, HuddleProfileButton, HuddlesNotificationButton, HuddleUserInfoPopUp },
   setup() {
@@ -40,11 +40,7 @@ export default defineComponent({
       } else {
         showPopup.value = value !== null ? value : !showPopup.value;
       }
-};
-
-    onMounted(() => {
-    });
-
+    };
     return {
       isLoginRoute,
       showPopup,

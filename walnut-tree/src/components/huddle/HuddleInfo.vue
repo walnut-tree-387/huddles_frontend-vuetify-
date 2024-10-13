@@ -26,9 +26,7 @@ export default {
       }
     },
     huddle(newVal, oldVal) {
-      console.log('Huddle changed:', { newVal, oldVal })
       if (newVal) {
-        console.log('Call for users')
         this.getHuddleUsers()
       }
     }
@@ -39,7 +37,6 @@ export default {
       try {
         const response = await HuddleUserService.getHuddleUsers(this.huddle?.uuid)
         this.userList = response;
-        console.log('Event passed in Huddle Info');
         this.$emit('fetch-app-users');
       } catch (error) {
         console.error('Error fetching huddles:', error)
