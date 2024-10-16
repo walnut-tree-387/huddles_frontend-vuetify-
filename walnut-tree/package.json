@@ -25,6 +25,8 @@
     "downloadjs": "^1.4.7",
     "flag-icons": "^7.2.3",
     "pinia": "^2.1.7",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "v-phone-input": "^4.2.1",
     "vue": "^3.3.11",
     "vue-chartjs": "^5.3.1",

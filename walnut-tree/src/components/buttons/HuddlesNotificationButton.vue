@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { useIcons, type wtlIconModule } from '../../composables/icons.js'
-import { color } from 'chart.js/helpers'
 import type { FunctionalComponent, SVGAttributes } from 'vue'
-
+import { useNotificationStore } from '@/stores/notificationStore.js'
+const notificationStore = useNotificationStore()
 withDefaults(
   defineProps<{
     icon?: wtlIconModule | FunctionalComponent<SVGAttributes, {}, any, {}>
   }>(),
   { icon: 'wtl-filled-general-bell' }
 )
-
 const { getIcon } = useIcons()
 </script>
 <template>
@@ -20,5 +19,9 @@ const { getIcon } = useIcons()
     :border="false"
     rounded="lg"
     color="primary"
+    @click="$emit('click')"
   />
+  <template v-if="notificationStore.notificationCount > 0">
+    <v-badge :content="notificationStore.notificationCount" color="red" />
+  </template>
 </template>
