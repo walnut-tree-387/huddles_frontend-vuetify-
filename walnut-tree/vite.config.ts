@@ -9,7 +9,13 @@ import fs from 'node:fs/promises'
 import { CustomIconLoader } from 'unplugin-icons/dist/types.js'
 
 const iconsPath = path.resolve('./src/assets/icons')
-const customElements = ['v-list-item-content', 'v-list-item-group', 'v-list-item-avatar', 'v-title', 'v-cl'];
+const customElements = [
+  'v-list-item-content',
+  'v-list-item-group',
+  'v-list-item-avatar',
+  'v-title',
+  'v-cl'
+]
 
 async function mapIconsWithFileSystemLoader(variant: 'light' | 'regular' | 'filled') {
   const icons: Record<string, CustomIconLoader> = {}
@@ -52,6 +58,9 @@ export default defineConfig({
       }
     })
   ],
+  define: {
+    global: 'window'
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useTokenStore } from '@/stores/autorizationToken'
 import type { AxiosResponse } from 'axios'
-const baseURL = 'http://localhost:8083/api/'
+const baseURL = 'http://localhost:8084/api/'
 
 interface ApiServiceParams {
   endpoint: string
@@ -17,7 +17,7 @@ export async function apiService<T>({
   params = {}
 }: ApiServiceParams): Promise<AxiosResponse<T>> {
   try {
-    const token = useTokenStore().getToken;
+    const token = useTokenStore().getToken
     const response = await axios({
       baseURL,
       url: endpoint,
@@ -49,7 +49,7 @@ export async function apiServiceWithoutToken<T>({
       url: endpoint,
       method,
       params,
-      data,
+      data
     })
     return response
   } catch (error) {

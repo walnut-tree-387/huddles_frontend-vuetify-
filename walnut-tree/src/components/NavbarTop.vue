@@ -4,50 +4,72 @@
       <HuddleLogo />
       <span class="logo-text">Huddles</span>
     </div>
-    
     <v-spacer></v-spacer>
-    
     <div v-if="!isLoginRoute" class="nav-icons">
-      <HuddlesNotificationButton />
-
+      <HuddlesNotificationButton @click="toggleNotificationPopup" />
       <div v-if="!isLoginRoute" class="profile-container">
-        <HuddleProfileButton @click="togglePopup" />
+        <HuddleProfileButton @click="toggleInfoPopup" />
       </div>
     </div>
-    <div v-if="showPopup" class="user-popup">
-      <HuddleUserInfoPopUp :isVisible="showPopup" @close="togglePopup(false)" />
+    <div v-if="showInfoPopup" class="user-popup">
+      <HuddleUserInfoPopUp :isVisible="showInfoPopup" @close="toggleInfoPopup(false)" />
+    </div>
+    <div v-if="showNotificationPopup" class="user-popup">
+      <HuddleNotificationPopUp
+        :isVisible="showNotificationPopup"
+        @close="toggleNotificationPopup(false)"
+      />
     </div>
   </v-app-bar>
 </template>
 
 <script lang="ts">
-import HuddleLogo from './buttons/HuddleLogo.vue';
-import { loggedInUserStore } from '../stores/loggedInUser.js';
-import HuddleUserInfoPopUp from '../components/huddle/HuddleUserInfoPopUp.vue';
-import HuddleProfileButton from './buttons/HuddleProfileButton.vue';
-import HuddlesNotificationButton from './buttons/HuddlesNotificationButton.vue';
-import { defineComponent, ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import HuddleLogo from './buttons/HuddleLogo.vue'
+import HuddleUserInfoPopUp from '../components/huddle/HuddleUserInfoPopUp.vue'
+import HuddleProfileButton from './buttons/HuddleProfileButton.vue'
+import HuddlesNotificationButton from './buttons/HuddlesNotificationButton.vue'
+import { defineComponent, ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import HuddleNotificationPopUp from './huddle/HuddleNotificationPopUp.vue'
 export default defineComponent({
-  components: { HuddleLogo, HuddleProfileButton, HuddlesNotificationButton, HuddleUserInfoPopUp },
+  components: {
+    HuddleLogo,
+    HuddleProfileButton,
+    HuddlesNotificationButton,
+    HuddleUserInfoPopUp,
+    HuddleNotificationPopUp
+  },
   setup() {
-    const showPopup = ref(false);
-    const route = useRoute();
-    const isLoginRoute = computed(() => route.path === '/huddles/login');
-    const togglePopup = (value: boolean | Event | null = null) => {
+    const showInfoPopup = ref(false)
+    const showNotificationPopup = ref(false)
+    const route = useRoute()
+    const isLoginRoute = computed(() => route.path === '/huddles/login')
+    const toggleInfoPopup = (value: boolean | Event | null = null) => {
+      console.log('profile clicked')
       if (value instanceof Event) {
-        showPopup.value = !showPopup.value;
+        showInfoPopup.value = !showInfoPopup.value
       } else {
-        showPopup.value = value !== null ? value : !showPopup.value;
+        showInfoPopup.value = value !== null ? value : !showInfoPopup.value
       }
-    };
+    }
+    const toggleNotificationPopup = (value: boolean | Event | null = null) => {
+      console.log('notification clicked')
+      debugger
+      if (value instanceof Event) {
+        showNotificationPopup.value = !showNotificationPopup.value
+      } else {
+        showNotificationPopup.value = value !== null ? value : !showNotificationPopup.value
+      }
+    }
     return {
       isLoginRoute,
-      showPopup,
-      togglePopup,
-    };
-  },
-});
+      showInfoPopup,
+      showNotificationPopup,
+      toggleInfoPopup,
+      toggleNotificationPopup
+    }
+  }
+})
 </script>
 <style scoped>
 .nav-title {
@@ -80,15 +102,14 @@ export default defineComponent({
 .user-popup {
   position: absolute;
   margin-top: 100px;
-  z-index: 10000; 
+  z-index: 10000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: white; 
-  border-radius: 8px; 
-  padding: 10px; 
-  width: 250px; 
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  width: 250px;
   max-height: 300px;
 }
-
 
 .nav-icons > * {
   margin-left: 15px;

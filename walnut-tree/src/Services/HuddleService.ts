@@ -4,8 +4,9 @@ import type { AxiosResponse } from 'axios'
 interface Huddle {
   uuid: string
   name: string
-  avatar: string,
+  avatar: string
   members: number
+  isLoggedInUserAMember: Boolean
 }
 
 export class HuddleService {
@@ -38,7 +39,7 @@ export class HuddleService {
         method: 'PUT',
         data: data
       })
-      return response.status;
+      return response.status
     } catch (error) {
       throw new Error(`Failed to add users to the huddles: ${error}`)
     }
@@ -46,13 +47,13 @@ export class HuddleService {
   static async removeUserFromHuddle(huddleUuid: string, userUuid: string): Promise<number> {
     try {
       const response = await apiService<void>({
-        endpoint: '/huddles/' + huddleUuid + "/remove-user",
+        endpoint: '/huddles/' + huddleUuid + '/remove-user',
         method: 'DELETE',
         params: {
           userUuid: userUuid
         }
       })
-      return response.status;
+      return response.status
     } catch (error) {
       throw new Error(`Failed to remove users from the huddles: ${error}`)
     }
@@ -64,7 +65,7 @@ export class HuddleService {
         method: 'POST',
         data: huddleData
       })
-      return response.status;
+      return response.status
     } catch (error) {
       throw new Error(`Failed to create huddle: ${error}`)
     }
@@ -73,7 +74,7 @@ export class HuddleService {
     try {
       const response: AxiosResponse<Huddle> = await apiService<Huddle>({
         endpoint: '/huddles/' + uuid,
-        method: 'GET',
+        method: 'GET'
       })
       return response.data
     } catch (error) {

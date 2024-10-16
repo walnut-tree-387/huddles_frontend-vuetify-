@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useIcons, type wtlIconModule } from '../../composables/icons.js'
-import { color } from 'chart.js/helpers'
 import type { FunctionalComponent, SVGAttributes } from 'vue'
 
 withDefaults(
