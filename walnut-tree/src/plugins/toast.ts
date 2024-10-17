@@ -6,8 +6,6 @@ export const toastOptions: PluginOptions = {
   maxToasts: 10,
   newestOnTop: false,
   transition: 'Vue-Toastification__fade',
-
-  // handled by custom component
   icon: false,
   closeButton: false,
   toastClassName: 'aesl-toast'

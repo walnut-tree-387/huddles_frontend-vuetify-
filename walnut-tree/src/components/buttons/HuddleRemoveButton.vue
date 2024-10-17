@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useIcons, type wtlIconModule } from '../../composables/icons.js'
-import { color } from 'chart.js/helpers'
 import type { FunctionalComponent, SVGAttributes } from 'vue'
 
 withDefaults(
   defineProps<{
     icon?: wtlIconModule | FunctionalComponent<SVGAttributes, {}, any, {}>
   }>(),
-  { icon: 'wtl-filled-users-people-user' }
+  { icon: 'wt-filled-general-minus' }
 )
 
 const { getIcon } = useIcons()
@@ -19,6 +18,6 @@ const { getIcon } = useIcons()
     :icon="typeof icon === 'string' ? getIcon(icon) : icon"
     :border="false"
     rounded="lg"
-    color="primary"
+    color="red"
   />
 </template>

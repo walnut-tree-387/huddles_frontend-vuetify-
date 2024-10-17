@@ -9,7 +9,7 @@ export function useWalnutToast() {
 
   function callToast(message: string, type: ToastType, options?: Record<string, any>) {
     const charCount = message.length
-    const timeout = Math.min(charCount * 50, 7000)
+    const timeout = Math.min(charCount * 50, 8000)
     toast(
       {
         component: WalnutToast,

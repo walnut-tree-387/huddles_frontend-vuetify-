@@ -14,7 +14,7 @@
   </div>
   <!-- <WalnutTreeTableActionButton /> -->
 </template>
-<script setup>
+<script lang="ts">
 import { title } from 'process'
 import { ref } from 'vue'
 import WalnutToast from '@/components/toasts/WalnutToast.vue'
@@ -22,8 +22,8 @@ import WalnutUserAvatar from '@/components/WalnutUserAvatar.vue'
 import WalnutTreePrimaryAddButton from '../components/buttons/WalnutTreePrimaryAddButton.vue'
 import WalnutTreeTableActionButton from '../components/buttons/WalnutTreeTableActionButton.vue'
 import WalnutTreeEvents from '@/components/WalnutTreeEvents.vue'
-import { useWalnutToast } from '@/composables/toast'
-import WalnutTreeGroupCard from '@/components/cards/WalnutTreeGroupCard.vue'
+import { useWalnutToast } from '../composables/toast.js'
+import WalnutTreeGroupCard from '../../components/cards/WalnutTreeGroupCard.vue'
 const cardHeaders = [
   { key: 'host', name: 'Organizer', icon: 'mdi-account' },
   { key: 'email', name: 'Email', icon: 'mdi-email' },

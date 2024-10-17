@@ -1,24 +1,48 @@
-<script>
+<script lang="ts">
 import HuddleSideBar from './HuddleSideBar.vue'
 import HuddleChatWindow from './HuddleChatWindow.vue'
-import HuddleInfo from './HuddleInfo.vue'
-import { HuddleService } from '@/Services/HuddleService'
+import { HuddleService } from '../../Services/HuddleService.js'
+import { UserService } from '../../Services/userService.js'
+import { HuddleUserService } from '../../Services/HuddleUserService.js'
+import HuddleFriendsList from './HuddleFriendsList.vue'
 export default {
   components: {
     HuddleChatWindow,
-    HuddleInfo,
-    HuddleSideBar
+    HuddleSideBar,
+    HuddleFriendsList
   },
   data() {
     return {
       selectedHuddle: null,
-      huddles: []
+      huddles: [],
+      huddleUsers: [],
+      usersNotInTheHuddle: []
     }
   },
   created() {
     this.getHuddles()
+    this.getUsersNotInTheHuddle()
+    this.getCurrentHuddleMembers();
   },
   methods: {
+    handleHuddleUpdate(value : any){
+      this.selectedHuddle = value
+    },
+    async addUserToHuddle(value : any) {
+      let body = {
+        uuid: this.selectedHuddle.uuid,
+        newUsers: value.map((uuid : any) => ({ uuid }))
+      }
+      try {
+        const responseStatus = await HuddleService.addUserToHuddle(body)
+        if(responseStatus === 204){
+          this.getUsersNotInTheHuddle();
+          this.getCurrentHuddleMembers();
+        }
+      } catch (error) {
+        console.error('Error fetching huddles:', error)
+      }
+    },
     passHuddleToHuddleInfo(value) {
       this.selectedHuddle = value
     },
@@ -28,6 +52,24 @@ export default {
         this.huddles = response
       } catch (error) {
         console.error('Error fetching huddles:', error)
+      }
+    },
+    async getCurrentHuddleMembers(){
+      const route = this.$route; 
+      const uuid = route.params.uuid; 
+      try{
+        this.huddleUsers = await HuddleUserService.getHuddleUsers(uuid)
+      }catch(error){
+        throw new Error(error);
+      }
+    },
+    async getUsersNotInTheHuddle() {
+      try {
+        const route = this.$route; 
+        const response = await UserService.getUsersNotInTheHuddle(route?.params?.uuid)
+        this.usersNotInTheHuddle = response
+      } catch (error) {
+        console.log('Error fetch the app users', error)
       }
     }
   }
@@ -40,11 +82,17 @@ export default {
         <v-col cols="2">
           <HuddleSideBar :huddles="huddles" @huddle-clicked="passHuddleToHuddleInfo" />
         </v-col>
-        <v-col cols="6">
-          <HuddleChatWindow />
+        <v-col cols="6" style="padding-right: 10vw;">
+          <HuddleChatWindow :huddleUsers="huddleUsers" :huddle="selectedHuddle" @update:huddle="handleHuddleUpdate" @fetch-app-users="getUsersNotInTheHuddle"/>
         </v-col>
         <v-col cols="4">
-          <HuddleInfo :v-if="selectedHuddle" :huddle="selectedHuddle" />
+          <HuddleFriendsList
+            :items="usersNotInTheHuddle"
+            :enable-check-box="true"
+            :title="'User List'"
+            @user-selected="addUserToHuddle"
+            :enable-invite-btn="true"
+          />
         </v-col>
       </v-row>
     </v-container>

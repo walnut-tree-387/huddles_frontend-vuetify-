@@ -9,6 +9,7 @@ import fs from 'node:fs/promises'
 import { CustomIconLoader } from 'unplugin-icons/dist/types.js'
 
 const iconsPath = path.resolve('./src/assets/icons')
+const customElements = ['v-list-item-content', 'v-list-item-group', 'v-list-item-avatar', 'v-title', 'v-cl'];
 
 async function mapIconsWithFileSystemLoader(variant: 'light' | 'regular' | 'filled') {
   const icons: Record<string, CustomIconLoader> = {}
@@ -30,7 +31,13 @@ const aesFilledIcons = await mapIconsWithFileSystemLoader('filled')
 
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => customElements.includes(tag)
+        }
+      }
+    }),
     vuetify({
       styles: {
         configFile: 'src/assets/settings.scss'

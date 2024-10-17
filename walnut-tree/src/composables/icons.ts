@@ -56,9 +56,11 @@ import IconBell from '~icons/wt-filled-general/bell'
 import IconUser from '~icons/wt-filled-users-people/user-star'
 import HuddleLogo from '~icons/wt-filled-chatting/chat-heart'
 import HuddleMessage from '~icons/wt-filled-messaging/message-plus'
+import HuddleRemoveIcon from '~icons/wt-filled-general/minus'
 
 const iconsMap = {
   'wt-filled-messaging-message-plus': HuddleMessage,
+  'wt-filled-general-minus': HuddleRemoveIcon,
   'wt-filled-chatting-chat-heart': HuddleLogo,
   'wtl-angle-left-small': wtlAngleLeftSmall,
   'wtl-filled-users-people-user': IconUser,
