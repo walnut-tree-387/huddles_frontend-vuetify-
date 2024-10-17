@@ -53,8 +53,6 @@ export default defineComponent({
       }
     }
     const toggleNotificationPopup = (value: boolean | Event | null = null) => {
-      console.log('notification clicked')
-      debugger
       if (value instanceof Event) {
         showNotificationPopup.value = !showNotificationPopup.value
       } else {

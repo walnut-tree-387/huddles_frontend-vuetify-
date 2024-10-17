@@ -30,12 +30,15 @@
           <v-img :src="item.avatar" height="64" cover></v-img>
         </v-card>
       </template>
+
       <template v-slot:header.name="{ column }">
         <span class="font-weight-bold">{{ column.text }}</span>
       </template>
+
       <template v-slot:header.avatar="{ column }">
         <span class="font-weight-bold">{{ column.text }}</span>
       </template>
+
       <template v-slot:header.members="{ column }">
         <span class="font-weight-bold">{{ column.text }}</span>
       </template>
@@ -43,11 +46,12 @@
       <template v-slot:item.action="{ item }">
         <div class="text-end">
           <v-btn
-            v-text="item.isLoggedInUserAMember ? 'Hop In' : 'Request'"
+            v-text="getButtonText(item.relation)"
             size="small"
             class="mx-4 my-2"
-            :color="item.isLoggedInUserAMember ? 'green' : 'primary'"
+            :color="getButtonColor(item.relation)"
             @click="hopIn(item)"
+            :disabled="item.relation.status === 'REQUESTED'"
           >
           </v-btn>
         </div>
@@ -68,25 +72,31 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue'
 import { HuddleService } from '@/Services/HuddleService.js'
+import { HuddleUserService } from '@/Services/HuddleUserService.js'
 import NilamPagination from '../NilamPagination.vue'
 import { loggedInUserStore } from '../../stores/loggedInUser.js'
 import router from '@/router/index.js'
+import { useWalnutToast } from '../../composables/toast.js'
 interface HuddleItem {
   uuid: string
   name: string
   avatar: string
   members: number
-  isLoggedInUserAMember: Boolean
+  relation: HuddleMemberRelation
+}
+interface HuddleMemberRelation {
+  huddleUuid: string
+  memberUuid: string
+  status: string
 }
 
 export default defineComponent({
   components: {
     NilamPagination
   },
-
   setup() {
+    const { showError, showSuccess } = useWalnutToast()
     const items = ref<HuddleItem[]>([])
-
     const headers = [
       { text: 'Name', value: 'name', sortable: false },
       { text: 'Avatar', value: 'avatar', sortable: false },
@@ -98,8 +108,26 @@ export default defineComponent({
     const itemsPerPage = ref(5)
     const currentPage = ref(1)
     const perPageOptions = [2, 3, 5]
+    const getButtonColor = (relation: HuddleMemberRelation) => {
+      if (relation.status === 'JOINED') return 'green'
+      else if (relation.status === 'REQUESTED') return 'blue'
+      else return 'red'
+    }
+    const getButtonText = (relation: HuddleMemberRelation) => {
+      if (relation.status === 'JOINED') return 'Hop In'
+      else if (relation.status === 'REQUESTED') return 'Requested'
+      else return 'Request Access'
+    }
     const hopIn = (item: HuddleItem) => {
-      router.push('/huddles/' + item.uuid)
+      if (item.relation.status === 'JOINED') {
+        router.push('/huddles/' + item.uuid)
+      } else requestForHuddleAccess(item)
+    }
+    const requestForHuddleAccess = async (item: HuddleItem) => {
+      const response = await HuddleUserService.createHuddleEntryRequest(item.uuid)
+      if (response === 201) {
+        showSuccess('Successfully requested entry in ' + item.name)
+      }
     }
     const totalItems = computed(() => items.value.length)
     const paginatedItems = computed(() => {
@@ -139,6 +167,9 @@ export default defineComponent({
       }
     })
     return {
+      getButtonColor,
+      getButtonText,
+      showSuccess,
       totalItems,
       items,
       search,
