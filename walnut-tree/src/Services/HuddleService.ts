@@ -6,7 +6,12 @@ interface Huddle {
   name: string
   avatar: string
   members: number
-  isLoggedInUserAMember: Boolean
+  relation: HuddleMemberRelation
+}
+interface HuddleMemberRelation {
+  huddleUuid: string
+  memberUuid: string
+  status: string
 }
 
 export class HuddleService {
