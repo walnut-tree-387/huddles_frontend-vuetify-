@@ -29,4 +29,5 @@ export default [
     name: 'Huddle Page',
     component: () => import('../views/HuddleView.vue')
   }
+  // new route
 ]
