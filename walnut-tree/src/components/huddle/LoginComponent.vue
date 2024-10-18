@@ -23,7 +23,7 @@ import { LoginService } from '@/Services/HuddleLoginService.js'
 import { defineComponent } from 'vue'
 import { loggedInUserStore } from '../../stores/loggedInUser.js'
 import { useWalnutToast } from '../../composables/toast.js'
-import WebsocketService from '../../Services/WebsocketService'
+import WebsocketService from '../../Services/WebsocketService.js'
 
 export default defineComponent({
   components: {},
