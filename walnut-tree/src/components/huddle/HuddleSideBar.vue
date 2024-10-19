@@ -30,7 +30,7 @@
       </v-list>
     </div>
     <v-divider></v-divider>
-    <WalnutTreePrimaryAddButton @click="showPopup = !showPopup" :title="'Start a Huddle'" style="margin: 10px 0 0 20px"/>
+    <WalnutTreePrimaryAddButton color="secondary" @click="showPopup = !showPopup" :title="'Start a Huddle'" style="margin: 10px 0 0 20px"/>
   </v-navigation-drawer>
   <teleport to="body">
     <div v-if="showPopup">

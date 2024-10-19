@@ -1,7 +1,7 @@
 <template>
   <div v-if="isVisible" class="popup-backdrop" @click.self="close">
     <div class="popup-content">
-      <v-list shaped dense>
+      <v-list v-if="notifications.length > 0" shaped dense>
         <v-list-item-group>
           <v-list-item
             v-for="(notification, index) in notifications"
@@ -34,6 +34,9 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
+      <template v-else>
+        <span v-text="'No new notifications'" style="font-size: large; font-weight: bolder; color: black;"></span>
+      </template>
     </div>
   </div>
 </template>

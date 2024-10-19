@@ -27,7 +27,7 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
 import WalnutUserAvatar from '../WalnutUserAvatar.vue'
 export default {
   name: 'ChatCardComponent',
@@ -76,11 +76,11 @@ export default {
 }
 
 .chat-card:hover {
-  background-color: #f5f5f5;
+  background-color: 'primary';
 }
 
 .chat-selected {
-  background-color: #f0f0f5;
+  background-color: 'primary';
 }
 
 .avatar-container {
@@ -99,7 +99,7 @@ export default {
   margin: 0;
   font-size: 15px;
   font-weight: 600;
-  color: #333;
+  color: 'primary';
 }
 
 .chat-message {

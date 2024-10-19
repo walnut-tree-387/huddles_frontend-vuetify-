@@ -100,10 +100,9 @@
 
 .popup-content {
   background-color: white;
-  padding: 40px;
   border-radius: 8px;
-  min-width: 200px;
-  max-width: 400px;
+  min-width: 400px;
+  min-height: auto;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   position: relative;

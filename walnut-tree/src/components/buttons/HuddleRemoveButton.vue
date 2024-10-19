@@ -18,6 +18,6 @@ const { getIcon } = useIcons()
     :icon="typeof icon === 'string' ? getIcon(icon) : icon"
     :border="false"
     rounded="lg"
-    color="red"
+    color="primary"
   />
 </template>

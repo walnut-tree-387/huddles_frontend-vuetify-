@@ -12,7 +12,7 @@
           type="password"
           required
         ></v-text-field>
-        <v-btn size="small" :disabled="!valid" @click="login" color="primary">Login</v-btn>
+        <v-btn size="small" :disabled="!valid" @click="login" color="green">Login</v-btn>
       </v-form>
     </v-card-text>
   </v-card>

@@ -40,7 +40,6 @@ export default defineComponent({
 <style scoped>
 .profile-tab {
     margin: 10px;
-    background-color: #ffffff;
     padding: 10px; 
     border-radius: 10px; 
     box-shadow: none; 

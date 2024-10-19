@@ -1,8 +1,10 @@
 <template>
   <div v-if="isVisible" class="popup-backdrop" @click.self="close">
     <div class="popup-content">
-      <p> Hello <strong>{{ user.name }}</strong></p>
-      <v-btn size="small" color="red" @click="logout">Log Out</v-btn>
+      <div>
+        <span v-text="'Hello ' + user.name" style="font-size: large; font-weight: bolder; color: black;"></span>
+      </div>
+      <v-btn size="small" color="primary" @click="logout">Log Out</v-btn>
       <HuddlePopUpCloseButton class="pop-up-close-btn" @click="close" />
     </div>
   </div>
@@ -76,6 +78,7 @@ export default defineComponent({
 }
 .popup-content {
   background-color: white;
+  color: 'primary';
   padding: 40px;
   border-radius: 8px;
   min-width: 200px;

@@ -7,12 +7,14 @@
     hide-details
     @keyup.enter="sendMessage"
     outlined
-    append-inner-icon="mdi-send"
-    @click:append-inner="sendMessage"
-  ></v-text-field>
+  >
+    <template #append-inner>
+      <v-icon color="primary" @click="sendMessage">mdi-send</v-icon>
+    </template>
+  </v-text-field>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'HuddleTextInput',
   props: {

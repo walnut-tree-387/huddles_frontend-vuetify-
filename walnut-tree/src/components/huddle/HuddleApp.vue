@@ -94,7 +94,7 @@ export default {
         <v-col cols="2">
           <HuddleSideBar :huddles="huddles" @huddle-clicked="passHuddleToHuddleInfo" />
         </v-col>
-        <v-col cols="6" style="padding-right: 10vw;">
+        <v-col cols="6">
           <HuddleChatWindow :huddleUsers="huddleUsers" :huddle="selectedHuddle" @update:huddle="handleHuddleUpdate" @fetch-app-users="getUsersNotInTheHuddle"/>
         </v-col>
         <v-col cols="4" class="right-column">

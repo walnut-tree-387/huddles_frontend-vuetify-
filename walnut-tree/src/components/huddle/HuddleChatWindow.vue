@@ -13,7 +13,7 @@
           :class="message.isOutgoing ? 'message-wrapper outgoing' : 'message-wrapper incoming'"
         >
           <div class="message" @click="toggleTime(index)">
-            <WalnutUserAvatar v-if="!message.isOutgoing" />
+            <WalnutUserAvatar v-if="!message.isOutgoing" color="primary"/>
             <div
               :class="message.isOutgoing ? 'message-content outgoing' : 'message-content incoming '"
             >
@@ -210,5 +210,10 @@ export default {
 .chat-card{
   border-radius: 15px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+.chat-window{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>

@@ -4,6 +4,13 @@
       <HuddleLogo />
       <span class="logo-text">Huddles</span>
     </div>
+    <v-switch
+    style="margin-left: 35vw; margin-top: 2vw;"
+      @change="currenThemeName == 'artisticDarkTheme' ? toggleTheme('artisticLightTheme') : toggleTheme('artisticDarkTheme')"
+      :label="currentThemeMode"
+      color="deep-purple accent-4"
+      dark
+    ></v-switch>
     <v-spacer></v-spacer>
     <div v-if="!isLoginRoute" class="nav-icons">
       <HuddlesNotificationButton @click="toggleNotificationPopup" />
@@ -31,6 +38,7 @@ import HuddlesNotificationButton from './buttons/HuddlesNotificationButton.vue'
 import { defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import HuddleNotificationPopUp from './huddle/HuddleNotificationPopUp.vue'
+import { useTheme } from 'vuetify'
 export default defineComponent({
   components: {
     HuddleLogo,
@@ -40,10 +48,18 @@ export default defineComponent({
     HuddleNotificationPopUp
   },
   setup() {
+    const theme = useTheme()
+    const currentThemeMode = ref('Dark mode')
+    const currenThemeName = ref('artisticLightTheme')
     const showInfoPopup = ref(false)
     const showNotificationPopup = ref(false)
     const route = useRoute()
     const isLoginRoute = computed(() => route.path === '/huddles/login')
+    const toggleTheme = (name : string) => {
+      theme.global.name.value = name;
+      currenThemeName.value = name;
+      currentThemeMode.value = currentThemeMode.value === 'Dark mode' ? 'Light mode' : 'Dark mode';
+    }
     const toggleInfoPopup = (value: boolean | Event | null = null) => {
       console.log('profile clicked')
       if (value instanceof Event) {
@@ -64,7 +80,10 @@ export default defineComponent({
       showInfoPopup,
       showNotificationPopup,
       toggleInfoPopup,
-      toggleNotificationPopup
+      toggleNotificationPopup,
+      currenThemeName,
+      toggleTheme,
+      currentThemeMode
     }
   }
 })
@@ -102,7 +121,7 @@ export default defineComponent({
   margin-top: 100px;
   z-index: 10000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  background-color: 'primary';
   border-radius: 8px;
   padding: 10px;
   width: 250px;

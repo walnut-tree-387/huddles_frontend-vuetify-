@@ -10,7 +10,7 @@
             <v-row align="center" class="w-100">
               <v-col cols="2" class="d-flex align-center">
                 <v-list-item-avatar>
-                  <WalnutUserAvatar />
+                  <WalnutUserAvatar color="primary" size="small"/>
                 </v-list-item-avatar>
               </v-col>
               <v-col cols="8" class="d-flex align-center">
@@ -42,7 +42,7 @@
       </v-list-item-group>
     </v-list>
     <div class="invite-btn" v-if="enableInviteBtn && items.length > 0">
-      <WalnutTreePrimaryAddButton @click="passSelectedUsers()" :title="'Invite to Huddle'" />
+      <WalnutTreePrimaryAddButton color="secondary" @click="passSelectedUsers()" :title="'Invite to Huddle'" />
     </div>
   </v-card>
 </template>
