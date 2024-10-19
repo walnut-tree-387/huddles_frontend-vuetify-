@@ -1,21 +1,15 @@
 import { apiService } from './ApiCaller'
 import type { AxiosResponse } from 'axios'
-
-interface HuddleUser {
-  uuid: string
-  memberName: string
-  joinedAt: Number
-  huddleRole: string
-}
 interface HuddleMemberRelation {
   huddleUuid: string
   userUuid: string
   huddleMemberStatus: string
 }
 export class HuddleUserService {
-  static async getHuddleUsers(uuid: string): Promise<HuddleUser[]> {
+  static async getHuddleUsers(uuid: string): Promise<HuddleMember[]> {
     try {
-      const response: AxiosResponse<HuddleUser[]> = await apiService<HuddleUser[]>({
+      console.log('making call for huddle users after processing join request')
+      const response: AxiosResponse<HuddleMember[]> = await apiService<HuddleMember[]>({
         endpoint: '/huddles/' + uuid + '/members',
         method: 'GET'
       })
@@ -26,7 +20,7 @@ export class HuddleUserService {
   }
   static async createHuddleEntryRequest(uuid: string): Promise<number> {
     try {
-      const response: AxiosResponse<HuddleUser[]> = await apiService<HuddleUser[]>({
+      const response: AxiosResponse<HuddleMember[]> = await apiService<HuddleMember[]>({
         endpoint: '/huddles/' + uuid + '/add-request',
         method: 'POST'
       })

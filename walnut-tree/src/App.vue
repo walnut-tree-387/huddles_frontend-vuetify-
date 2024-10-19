@@ -12,7 +12,7 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
 import NavbarTop from './components/NavbarTop.vue'
 export default {
   name: 'App',

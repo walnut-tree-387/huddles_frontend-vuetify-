@@ -1,6 +1,7 @@
 import { da } from 'vuetify/locale'
 import { apiService } from './ApiCaller'
 import type { AxiosResponse } from 'axios'
+import type { HuddleJoinRequest } from '@/components/huddle/Models/HuddleJoinRquest'
 interface Huddle {
   uuid: string
   name: string
@@ -82,6 +83,28 @@ export class HuddleService {
         method: 'GET'
       })
       return response.data
+    } catch (error) {
+      throw new Error(`Failed to create huddle: ${error}`)
+    }
+  }
+  static async getHuddleRequests(huddleUuid: string): Promise<HuddleJoinRequest[]>{
+    try {
+      const response: AxiosResponse<HuddleJoinRequest[]> = await apiService<HuddleJoinRequest[]>({
+        endpoint: '/huddles/' + huddleUuid + "/join-request-list",
+        method: 'GET'
+      })
+      return response.data
+    } catch (error) {
+      throw new Error(`Failed to create huddle: ${error}`)
+    }
+  }
+  static async processHuddleRequest(huddleUuid: string, memberUuid: string, action: string): Promise<number>{
+    try {
+      const response: AxiosResponse<number> = await apiService<number>({
+        endpoint: `/huddles/` + huddleUuid + `/process-request?memberUuid=${memberUuid}&action=${action}`,
+        method: 'PUT'
+      })
+      return response.status
     } catch (error) {
       throw new Error(`Failed to create huddle: ${error}`)
     }

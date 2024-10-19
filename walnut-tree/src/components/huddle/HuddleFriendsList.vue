@@ -1,10 +1,10 @@
 <template>
   <v-card class="mx-auto huddle-list-card" :style="{ width: removeIcon ? '100%' : '90%' }">
-    <v-card-title style="text-align: center"> {{ title }} </v-card-title>
+    <v-card-title style="text-align: center font-size: large; font-weight: bolder;"> {{ title }} </v-card-title>
     <v-divider></v-divider>
     <v-list shaped dense>
       <v-list-item-group v-model="model" multiple>
-        <template v-for="(item, i) in items" :key="`item-${i}`">
+        <template v-if="items.length > 0" v-for="(item, i) in items" :key="`item-${i}`">
           <v-divider v-if="!item"></v-divider>
           <v-list-item v-else :value="item" class="huddle-list-item">
             <v-row align="center" class="w-100">
@@ -18,7 +18,7 @@
                   <v-list-item-title v-text="item.name" class="truncate"></v-list-item-title>
                 </v-list-item-content>
               </v-col>
-              <v-cl cols="2" class="d-flex ml-10" v-if="removeIcon">
+              <v-cl cols="2" class="d-flex ml-10" v-if="removeIcon && item.huddleRole === 'MEMBER'">
                 <v-list-item-action>
                   <HuddleRemoveButton @click="() => removeUserFromHuddle(item.memberUuid)"/>
                 </v-list-item-action>
@@ -36,9 +36,12 @@
             </v-row>
           </v-list-item>
         </template>
+        <template v-else>
+          <span v-text="'No new friends to add..'" style="font-size: small; font-weight: lighter; text-align: center; display: block;"></span>
+        </template>
       </v-list-item-group>
     </v-list>
-    <div class="invite-btn" v-if="enableInviteBtn">
+    <div class="invite-btn" v-if="enableInviteBtn && items.length > 0">
       <WalnutTreePrimaryAddButton @click="passSelectedUsers()" :title="'Invite to Huddle'" />
     </div>
   </v-card>
@@ -49,7 +52,6 @@ import WalnutTreePrimaryAddButton from '../buttons/WalnutTreePrimaryAddButton.vu
 import WalnutUserAvatar from '../WalnutUserAvatar.vue'
 import HuddleRemoveButton from '../buttons/HuddleRemoveButton.vue'
 import { HuddleService } from '../../Services/HuddleService.js'
-import { useRoute } from 'vue-router'
 export default {
   name: 'HuddleFriendsList',
   props: {

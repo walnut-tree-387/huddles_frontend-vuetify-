@@ -24,8 +24,7 @@ export default class WebsocketService {
         console.log('WebSocket connected!')
         this.stompClient?.subscribe(`/user/queue/notification`, (message: Object) => {
           try {
-            console.log(message)
-            const messageBody = message.body
+            const messageBody = message?.body
             const parsedMessage = JSON.parse(messageBody)
             useNotificationStore().addNotification(parsedMessage)
           } catch (error) {

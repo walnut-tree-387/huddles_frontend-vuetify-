@@ -5,17 +5,19 @@ import { HuddleService } from '../../Services/HuddleService.js'
 import { UserService } from '../../Services/userService.js'
 import { HuddleUserService } from '../../Services/HuddleUserService.js'
 import HuddleFriendsList from './HuddleFriendsList.vue'
+import HuddleJoinRquestList from './HuddleJoinRquestList.vue'
+import { ref } from 'vue'
 export default {
   components: {
     HuddleChatWindow,
     HuddleSideBar,
-    HuddleFriendsList
+    HuddleFriendsList,
+    HuddleJoinRquestList
   },
   data() {
     return {
       selectedHuddle: null,
       huddles: [],
-      huddleUsers: [],
       usersNotInTheHuddle: []
     }
   },
@@ -24,7 +26,17 @@ export default {
     this.getUsersNotInTheHuddle()
     this.getCurrentHuddleMembers();
   },
+  setup(){
+    const huddleUsers = ref<[]>();
+    return{
+      huddleUsers
+    }
+  },
   methods: {
+    updateBothTypeUsers(){
+      this.getUsersNotInTheHuddle()
+      this.getCurrentHuddleMembers();
+    },
     handleHuddleUpdate(value : any){
       this.selectedHuddle = value
     },
@@ -85,14 +97,15 @@ export default {
         <v-col cols="6" style="padding-right: 10vw;">
           <HuddleChatWindow :huddleUsers="huddleUsers" :huddle="selectedHuddle" @update:huddle="handleHuddleUpdate" @fetch-app-users="getUsersNotInTheHuddle"/>
         </v-col>
-        <v-col cols="4">
+        <v-col cols="4" class="right-column">
           <HuddleFriendsList
             :items="usersNotInTheHuddle"
             :enable-check-box="true"
-            :title="'User List'"
+            :title="'Invite your friends'"
             @user-selected="addUserToHuddle"
             :enable-invite-btn="true"
           />
+          <HuddleJoinRquestList @request-processed="updateBothTypeUsers"/>
         </v-col>
       </v-row>
     </v-container>
@@ -110,7 +123,10 @@ export default {
 .full-height-row {
   height: 100%;
 }
-
+.right-column{
+  display: flex;
+  flex-direction: column;
+}
 .v-col {
   overflow: hidden;
 }

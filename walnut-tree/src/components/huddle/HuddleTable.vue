@@ -127,6 +127,7 @@ export default defineComponent({
       const response = await HuddleUserService.createHuddleEntryRequest(item.uuid)
       if (response === 201) {
         showSuccess('Successfully requested entry in ' + item.name)
+        getHuddles()
       }
     }
     const totalItems = computed(() => items.value.length)
