@@ -3,6 +3,7 @@ import HuddleSideBar from './HuddleSideBar.vue'
 import HuddleChatWindow from './HuddleChatWindow.vue'
 import { HuddleService } from '../../Services/HuddleService.js'
 import { UserService } from '../../Services/userService.js'
+import { HuddleBuddiesService } from '../../Services/HuddleBuddyService.ts'
 import { HuddleUserService } from '../../Services/HuddleUserService.js'
 import HuddleFriendsList from './HuddleFriendsList.vue'
 import HuddleJoinRquestList from './HuddleJoinRquestList.vue'
@@ -18,38 +19,38 @@ export default {
     return {
       selectedHuddle: null,
       huddles: [],
-      usersNotInTheHuddle: []
+      friendList: []
     }
   },
   created() {
     this.getHuddles()
-    this.getUsersNotInTheHuddle()
-    this.getCurrentHuddleMembers();
+    this.getFriends()
+    this.getCurrentHuddleMembers()
   },
-  setup(){
-    const huddleUsers = ref<[]>();
-    return{
+  setup() {
+    const huddleUsers = ref<[]>()
+    return {
       huddleUsers
     }
   },
   methods: {
-    updateBothTypeUsers(){
-      this.getUsersNotInTheHuddle()
-      this.getCurrentHuddleMembers();
+    updateBothTypeUsers() {
+      this.getFriends()
+      this.getCurrentHuddleMembers()
     },
-    handleHuddleUpdate(value : any){
+    handleHuddleUpdate(value: any) {
       this.selectedHuddle = value
     },
-    async addUserToHuddle(value : any) {
+    async addUserToHuddle(value: any) {
       let body = {
         uuid: this.selectedHuddle.uuid,
-        newUsers: value.map((uuid : any) => ({ uuid }))
+        newUsers: value.map((uuid: any) => ({ uuid }))
       }
       try {
         const responseStatus = await HuddleService.addUserToHuddle(body)
-        if(responseStatus === 204){
-          this.getUsersNotInTheHuddle();
-          this.getCurrentHuddleMembers();
+        if (responseStatus === 204) {
+          this.getFriends()
+          this.getCurrentHuddleMembers()
         }
       } catch (error) {
         console.error('Error fetching huddles:', error)
@@ -66,20 +67,19 @@ export default {
         console.error('Error fetching huddles:', error)
       }
     },
-    async getCurrentHuddleMembers(){
-      const route = this.$route; 
-      const uuid = route.params.uuid; 
-      try{
+    async getCurrentHuddleMembers() {
+      const route = this.$route
+      const uuid = route.params.uuid
+      try {
         this.huddleUsers = await HuddleUserService.getHuddleUsers(uuid)
-      }catch(error){
-        throw new Error(error);
+      } catch (error) {
+        throw new Error(error)
       }
     },
-    async getUsersNotInTheHuddle() {
+    async getFriends() {
       try {
-        const route = this.$route; 
-        const response = await UserService.getUsersNotInTheHuddle(route?.params?.uuid)
-        this.usersNotInTheHuddle = response
+        const response = await HuddleBuddiesService.getBuddies()
+        this.friendList = response
       } catch (error) {
         console.log('Error fetch the app users', error)
       }
@@ -95,17 +95,22 @@ export default {
           <HuddleSideBar :huddles="huddles" @huddle-clicked="passHuddleToHuddleInfo" />
         </v-col>
         <v-col cols="6">
-          <HuddleChatWindow :huddleUsers="huddleUsers" :huddle="selectedHuddle" @update:huddle="handleHuddleUpdate" @fetch-app-users="getUsersNotInTheHuddle"/>
+          <HuddleChatWindow
+            :huddleUsers="huddleUsers"
+            :huddle="selectedHuddle"
+            @update:huddle="handleHuddleUpdate"
+            @fetch-app-users="getFriends"
+          />
         </v-col>
         <v-col cols="4" class="right-column">
           <HuddleFriendsList
-            :items="usersNotInTheHuddle"
+            :items="friendList"
             :enable-check-box="true"
             :title="'Invite your friends'"
             @user-selected="addUserToHuddle"
             :enable-invite-btn="true"
           />
-          <HuddleJoinRquestList @request-processed="updateBothTypeUsers"/>
+          <HuddleJoinRquestList @request-processed="updateBothTypeUsers" />
         </v-col>
       </v-row>
     </v-container>
@@ -123,7 +128,7 @@ export default {
 .full-height-row {
   height: 100%;
 }
-.right-column{
+.right-column {
   display: flex;
   flex-direction: column;
 }
