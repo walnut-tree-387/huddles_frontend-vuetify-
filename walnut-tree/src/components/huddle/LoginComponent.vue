@@ -77,7 +77,7 @@ export default defineComponent({
             this.$router.push('/huddles')
           }, 2000)
         } catch (err) {
-          this.showError(err.message)
+          this.showError(err?.message)
         }
       }
     }

@@ -25,9 +25,13 @@ export default [
     component: () => import('../views/HuddleLoginView.vue')
   },
   {
-    path: '/huddles/:uuid',
-    name: 'Huddle Page',
+    path: '/huddles/:huddleUuid',
+    name: 'Huddle Chat Page',
     component: () => import('../views/HuddleView.vue')
+  },
+  {
+    path: '/huddles/friend-requests',
+    name: 'Huddle Friend Request Page',
+    component: () => import('../views/HuddlesFriendRequestView.vue')
   }
-  // new route
 ]
