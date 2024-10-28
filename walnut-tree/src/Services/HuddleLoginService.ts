@@ -1,5 +1,5 @@
 import { apiService, apiServiceWithoutToken } from './ApiCaller'
-import type { AxiosResponse } from 'axios'
+import { isAxiosError, type AxiosResponse, AxiosError } from 'axios'
 import { useTokenStore } from '@/stores/autorizationToken'
 
 interface LoggedInUserState {
@@ -18,8 +18,8 @@ export class LoginService {
       })
       useTokenStore().setToken(response.data.token);
       return response.data;
-    } catch (error) {
-      throw new Error(`Failed to fetch huddle user: ${error}`)
+    } catch (error: any) {
+     throw new AxiosError(error.response.data.message);
     }
   }
   static async registration(loginRequest: Object): Promise<number> {
@@ -31,7 +31,7 @@ export class LoginService {
       })
       return response.status;
     } catch (error) {
-      throw new Error(`Failed to fetch huddle user: ${error}`)
+      throw new AxiosError(`Failed to fetch huddle user: ${error}`)
     }
   }
 }

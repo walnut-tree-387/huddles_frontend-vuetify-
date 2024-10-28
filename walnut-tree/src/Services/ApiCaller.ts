@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useTokenStore } from '@/stores/autorizationToken'
 import type { AxiosResponse } from 'axios'
 const baseURL = 'http://localhost:8084/api/'
@@ -30,10 +30,7 @@ export async function apiService<T>({
     })
     return response
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(`API call failed: ${error.response?.data || error.message}`)
-    }
-    throw new Error(`API call failed: ${error}`)
+    throw error
   }
 }
 
@@ -53,9 +50,6 @@ export async function apiServiceWithoutToken<T>({
     })
     return response
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(`API call failed: ${error.response?.data || error.message}`)
-    }
-    throw new Error(`API call failed: ${error}`)
+    throw error;
   }
 }
