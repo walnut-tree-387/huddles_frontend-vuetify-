@@ -1,41 +1,42 @@
 <template>
-    <HuddleFriendsList :title="'Friend Request'" :items="requests"/>
+  {{ requests }}
+  <HuddleFriendRequestTable @request-processed="getFriendRequests" :desserts="requests" />
 </template>
 <script lang="ts">
-import { HuddleFriendRequestService } from '@/Services/HuddleFriendRequestService.js';
-import HuddleFriendsList from '@/components/huddle/HuddleFriendsList.vue.js';
+import { HuddleFriendRequestService } from '@/Services/HuddleFriendRequestService.js'
+import HuddleFriendRequestTable from '../components/huddle/HuddleFriendRequestTable.vue'
 export default {
   name: 'HuddleFriendsList',
   props: {
     items: {
       type: Array,
       default: () => []
-    },
+    }
   },
-  components: { },
+  components: { HuddleFriendRequestTable },
   data() {
     return {
       requests: [
         {
           name: 'Dummy User',
           memberRole: 'Commonner',
-          uuid:  '2312312312'
+          uuid: '2312312312'
         }
       ]
     }
   },
-  created() {
-    this.getFriendRequests();
+  onMounted() {
+    this.getFriendRequest()
   },
   methods: {
     async getFriendRequests() {
       try {
-        const response = await HuddleFriendRequestService.getFriendRequestList();
-        this.requests = response;
+        const response = await HuddleFriendRequestService.getFriendRequestList()
+        this.requests = response
       } catch (error) {
-        console.error('Error removing user from huddle:', error);
+        console.error('Error removing user from huddle:', error)
       }
-    },
-}
+    }
+  }
 }
 </script>
