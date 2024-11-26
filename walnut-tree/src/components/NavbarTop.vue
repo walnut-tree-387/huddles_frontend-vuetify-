@@ -5,8 +5,12 @@
       <span class="logo-text">Huddles</span>
     </div>
     <v-switch
-    style="margin-left: 35vw; margin-top: 2vw;"
-      @change="currenThemeName == 'artisticDarkTheme' ? toggleTheme('artisticLightTheme') : toggleTheme('artisticDarkTheme')"
+      style="margin-left: 35vw; margin-top: 2vw"
+      @change="
+        currenThemeName == 'artisticDarkTheme'
+          ? toggleTheme('artisticLightTheme')
+          : toggleTheme('artisticDarkTheme')
+      "
       :label="currentThemeMode"
       color="deep-purple accent-4"
       dark
@@ -49,19 +53,18 @@ export default defineComponent({
   },
   setup() {
     const theme = useTheme()
-    const currentThemeMode = ref('Dark mode')
-    const currenThemeName = ref('artisticLightTheme')
+    const currentThemeMode = ref('Light Mode')
+    const currenThemeName = ref('artisticDarkTheme')
     const showInfoPopup = ref(false)
     const showNotificationPopup = ref(false)
     const route = useRoute()
     const isLoginRoute = computed(() => route.path === '/huddles/login')
-    const toggleTheme = (name : string) => {
-      theme.global.name.value = name;
-      currenThemeName.value = name;
-      currentThemeMode.value = currentThemeMode.value === 'Dark mode' ? 'Light mode' : 'Dark mode';
+    const toggleTheme = (name: string) => {
+      theme.global.name.value = name
+      currenThemeName.value = name
+      currentThemeMode.value = currentThemeMode.value === 'Dark mode' ? 'Light mode' : 'Dark mode'
     }
     const toggleInfoPopup = (value: boolean | Event | null = null) => {
-      console.log('profile clicked')
       if (value instanceof Event) {
         showInfoPopup.value = !showInfoPopup.value
       } else {

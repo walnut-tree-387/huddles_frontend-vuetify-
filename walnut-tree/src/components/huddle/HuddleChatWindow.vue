@@ -13,7 +13,7 @@
           :class="message.isOutgoing ? 'message-wrapper outgoing' : 'message-wrapper incoming'"
         >
           <div class="message" @click="toggleTime(index)">
-            <WalnutUserAvatar v-if="!message.isOutgoing" color="primary"/>
+            <WalnutUserAvatar v-if="!message.isOutgoing" color="primary" />
             <div
               :class="message.isOutgoing ? 'message-content outgoing' : 'message-content incoming '"
             >
@@ -37,7 +37,12 @@
         />
       </v-card-actions>
     </v-card>
-    <HuddleInfo class="huddle-info" :huddle="huddle" :huddle-users="huddleUsers" @fetch-app-users="sendEmitToParent"/>
+    <HuddleInfo
+      class="huddle-info"
+      :huddle="huddle"
+      :huddle-users="huddleUsers"
+      @fetch-app-users="sendEmitToParent"
+    />
   </v-container>
 </template>
 
@@ -62,7 +67,7 @@ export default {
     }
   },
   created() {
-    this.getHuddle();
+    this.getHuddle()
   },
   data() {
     return {
@@ -115,17 +120,17 @@ export default {
     }
   },
   methods: {
-    sendEmitToParent(){
+    sendEmitToParent() {
       this.$emit('fetch-app-users')
     },
-    async getHuddle(){
-      try{
-        const route = useRoute(); 
-        const uuid = route.params.uuid; 
-        const routedHuddle = await HuddleService.getHuddle(uuid);
-        this.$emit('update:huddle', routedHuddle);
-      }catch(error){
-        throw new Error(error);
+    async getHuddle() {
+      try {
+        const route = useRoute()
+        const uuid = route.params.huddleUuid
+        const routedHuddle = await HuddleService.getHuddle(uuid)
+        this.$emit('update:huddle', routedHuddle)
+      } catch (error) {
+        throw new Error(error)
       }
     },
     sendMessage() {
@@ -204,14 +209,14 @@ export default {
 .send-message-input .v-input__control .v-field .v-field__field input {
   padding: inherit;
 }
-.huddle-info{
+.huddle-info {
   position: relative;
 }
-.chat-card{
+.chat-card {
   border-radius: 15px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
-.chat-window{
+.chat-window {
   display: flex;
   flex-direction: column;
   justify-content: center;

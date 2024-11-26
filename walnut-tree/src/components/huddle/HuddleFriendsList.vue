@@ -1,6 +1,8 @@
 <template>
   <v-card class="mx-auto huddle-list-card" :style="{ width: removeIcon ? '100%' : '90%' }">
-    <v-card-title style="text-align: center font-size: large; font-weight: bolder;"> {{ title }} </v-card-title>
+    <v-card-title style="text-align: center font-size: large; font-weight: bolder;">
+      {{ title }}
+    </v-card-title>
     <v-divider></v-divider>
     <v-list shaped dense>
       <v-list-item-group v-model="model" multiple>
@@ -10,7 +12,7 @@
             <v-row align="center" class="w-100">
               <v-col cols="2" class="d-flex align-center">
                 <v-list-item-avatar>
-                  <WalnutUserAvatar color="primary" size="small"/>
+                  <WalnutUserAvatar color="primary" size="small" />
                 </v-list-item-avatar>
               </v-col>
               <v-col cols="8" class="d-flex align-center">
@@ -18,9 +20,13 @@
                   <v-list-item-title v-text="item.name" class="truncate"></v-list-item-title>
                 </v-list-item-content>
               </v-col>
-              <v-cl cols="2" class="d-flex ml-10" v-if="removeIcon && item.huddleRole === 'MEMBER'">
+              <v-cl
+                v-if="removeIcon && item.huddleRole === 'MEMBER' && isCurrentUserIsCreator"
+                cols="2"
+                class="d-flex ml-10"
+              >
                 <v-list-item-action>
-                  <HuddleRemoveButton @click="() => removeUserFromHuddle(item.memberUuid)"/>
+                  <HuddleRemoveButton @click="() => removeUserFromHuddle(item.memberUuid)" />
                 </v-list-item-action>
               </v-cl>
               <v-col cols="2" class="d-flex" v-if="enableCheckBox">
@@ -37,21 +43,32 @@
           </v-list-item>
         </template>
         <template v-else>
-          <span v-text="'No new friends to add..'" style="font-size: small; font-weight: lighter; text-align: center; display: block;"></span>
+          <span
+            v-text="'No new friends to add..'"
+            style="font-size: small; font-weight: lighter; text-align: center; display: block"
+          ></span>
         </template>
       </v-list-item-group>
     </v-list>
     <div class="invite-btn" v-if="enableInviteBtn && items.length > 0">
-      <WalnutTreePrimaryAddButton color="secondary" @click="passSelectedUsers()" :title="'Invite to Huddle'" />
+      <WalnutTreePrimaryAddButton
+        color="secondary"
+        @click="passSelectedUsers()"
+        :title="'Invite to Huddle'"
+      />
     </div>
   </v-card>
 </template>
 
 <script lang="ts">
+import { ref, watch } from 'vue'
 import WalnutTreePrimaryAddButton from '../buttons/WalnutTreePrimaryAddButton.vue'
 import WalnutUserAvatar from '../WalnutUserAvatar.vue'
 import HuddleRemoveButton from '../buttons/HuddleRemoveButton.vue'
 import { HuddleService } from '../../Services/HuddleService.js'
+import { loggedInUserStore } from '../../stores/loggedInUser.js'
+import { useRoute } from 'vue-router'
+import { HuddleMember } from '../huddle/Models/HuddleMember'
 export default {
   name: 'HuddleFriendsList',
   props: {
@@ -76,43 +93,66 @@ export default {
       default: 'Title'
     }
   },
-  components: { WalnutTreePrimaryAddButton, WalnutUserAvatar, HuddleRemoveButton },
-  data() {
-    return {
-      model: []
-    }
+  components: {
+    WalnutTreePrimaryAddButton,
+    WalnutUserAvatar,
+    HuddleRemoveButton
   },
-  methods: {
-    async removeUserFromHuddle(userUuid: any) {
-      const route = this.$route; 
-      const huddleUuid = route?.params?.uuid;
+  setup(props, { emit }) {
+    const model = ref<HuddleMember[]>([])
+    const user = loggedInUserStore().getUser
+    const route = useRoute()
+    watch(
+      () => props.items,
+      (newItems) => {
+        model.value = newItems.map((item: any) => item.uuid)
+      },
+      { immediate: true }
+    )
+    const isCurrentUserIsCreator = () => {
+      return props.items?.some((item: any) => {
+        console.log(item?.memberUuid === user.uuid && item?.huddleRole === 'CREATOR')
+        item?.memberUuid === user.uuid && item?.huddleRole === 'CREATOR'
+      })
+    }
+
+    const removeUserFromHuddle = async (userUuid: string) => {
+      const huddleUuid = route.params.huddleUuid
 
       if (!huddleUuid || !userUuid) {
-        console.error('Huddle UUID or User UUID is undefined', huddleUuid, userUuid);
-        return;
+        console.error('Huddle UUID or User UUID is undefined', huddleUuid, userUuid)
+        return
       }
 
       try {
-        const status = await HuddleService.removeUserFromHuddle(huddleUuid, userUuid);
-        if(status === 200){
-          this.$emit('user-removed');
+        const status = await HuddleService.removeUserFromHuddle(huddleUuid, userUuid)
+        if (status === 200) {
+          emit('user-removed')
         }
       } catch (error) {
-        console.error('Error removing user from huddle:', error);
+        console.error('Error removing user from huddle:', error)
       }
-    },
-    toggleItem(id : any) {
-      const index = this.model.indexOf(id);
+    }
+    const toggleItem = (id: string) => {
+      const index = model.value.indexOf(id)
       if (index === -1) {
-        this.model.push(id);
+        model.value.push(id)
       } else {
-        this.model.splice(index, 1);
+        model.value.splice(index, 1)
       }
-    },
-    passSelectedUsers() {
-      console.log(this.model);
-      this.$emit('user-selected', this.model);
-      this.model = [];
+    }
+    const passSelectedUsers = () => {
+      emit('user-selected', model.value)
+      model.value = []
+    }
+
+    return {
+      model,
+      user,
+      isCurrentUserIsCreator,
+      removeUserFromHuddle,
+      toggleItem,
+      passSelectedUsers
     }
   }
 }

@@ -2,8 +2,7 @@
 import HuddleSideBar from './HuddleSideBar.vue'
 import HuddleChatWindow from './HuddleChatWindow.vue'
 import { HuddleService } from '../../Services/HuddleService.js'
-import { UserService } from '../../Services/userService.js'
-import { HuddleBuddiesService } from '../../Services/HuddleBuddyService.ts'
+import { HuddleBuddiesService } from '../../Services/HuddleBuddyService'
 import { HuddleUserService } from '../../Services/HuddleUserService.js'
 import HuddleFriendsList from './HuddleFriendsList.vue'
 import HuddleJoinRquestList from './HuddleJoinRquestList.vue'
@@ -69,7 +68,7 @@ export default {
     },
     async getCurrentHuddleMembers() {
       const route = this.$route
-      const uuid = route.params.uuid
+      const uuid = route.params.huddleUuid
       try {
         this.huddleUsers = await HuddleUserService.getHuddleUsers(uuid)
       } catch (error) {

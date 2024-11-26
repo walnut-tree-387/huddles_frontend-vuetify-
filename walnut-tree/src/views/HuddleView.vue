@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import HuddleLogo from '@/components/buttons/HuddleLogo.vue'
-import HuddleProfileButton from '@/components/buttons/HuddleProfileButton.vue'
-import HuddlesNotificationButton from '@/components/buttons/HuddlesNotificationButton.vue'
-import WalnutTreePrimaryAddButton from '@/components/buttons/WalnutTreePrimaryAddButton.vue'
 import HuddleApp from '@/components/huddle/HuddleApp.vue'
-import HuddleSideBar from '@/components/huddle/HuddleSideBar.vue'
 </script>
 
 <template>

@@ -1,11 +1,11 @@
 <template>
-  {{ requests }}
   <HuddleFriendRequestTable @request-processed="getFriendRequests" :desserts="requests" />
 </template>
 <script lang="ts">
 import { HuddleFriendRequestService } from '@/Services/HuddleFriendRequestService.js'
 import HuddleFriendRequestTable from '../components/huddle/HuddleFriendRequestTable.vue'
-export default {
+import { onMounted, defineComponent, ref } from 'vue'
+export default defineComponent({
   name: 'HuddleFriendsList',
   props: {
     items: {
@@ -13,30 +13,27 @@ export default {
       default: () => []
     }
   },
-  components: { HuddleFriendRequestTable },
-  data() {
-    return {
-      requests: [
-        {
-          name: 'Dummy User',
-          memberRole: 'Commonner',
-          uuid: '2312312312'
-        }
-      ]
-    }
+  components: {
+    HuddleFriendRequestTable
   },
-  onMounted() {
-    this.getFriendRequest()
-  },
-  methods: {
-    async getFriendRequests() {
+  setup() {
+    const requests = ref([])
+    const getFriendRequests = async () => {
       try {
         const response = await HuddleFriendRequestService.getFriendRequestList()
-        this.requests = response
+        requests.value = [...requests.value, ...response]
       } catch (error) {
-        console.error('Error removing user from huddle:', error)
+        console.error('Error fetching friend requests:', error)
       }
     }
+    onMounted(() => {
+      getFriendRequests()
+    })
+
+    return {
+      requests,
+      getFriendRequests
+    }
   }
-}
+})
 </script>

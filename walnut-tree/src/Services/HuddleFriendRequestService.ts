@@ -7,6 +7,7 @@ interface FriendRequest {
   uuid: string | null
   name: string | null
   email: string | null
+  memberRole: string | null
 }
 export class HuddleFriendRequestService {
   static async getFriendRequestList(): Promise<FriendRequest[]> {
