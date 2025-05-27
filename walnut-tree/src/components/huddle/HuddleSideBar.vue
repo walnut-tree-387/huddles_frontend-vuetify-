@@ -49,10 +49,10 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   components: { HuddleChatCard, HuddleChatWindow, WalnutTreePrimaryAddButton, HuddleCreatePopUp },
   props: {
-    huddles: {
-      type: Array,
-      default: []
-    }
+    // huddles: {
+    //   type: Array,
+    //   default: []
+    // }
   },
   emits: ['huddle-clicked'],
   data() {
@@ -87,11 +87,11 @@ export default defineComponent({
     }
   },
   watch: {
-    huddles(newVal) {
-      if (newVal) {
-        this.huddleList = this.huddles
-      }
-    }
+    // huddles(newVal) {
+    //   if (newVal) {
+    //     this.huddleList = this.huddles
+    //   }
+    // }
   },
   created() {
     this.getMyHuddles()
@@ -102,8 +102,7 @@ export default defineComponent({
       this.getMyHuddles();
     },
     selectHuddle(uuid : any) {
-      this.selectedHuddle = this.huddles.find((huddle : any) => huddle.uuid === uuid);
-      this.$emit('huddle-clicked', this.selectedHuddle);
+      this.$router.push({ name: 'Huddle Chat Page', params: { huddleUuid: uuid } });
     },
     async getMyHuddles() {
       try {

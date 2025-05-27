@@ -1,8 +1,7 @@
 <template>
   <v-text-field
     class="send-message-input"
-    :value="modelValue"
-    @input="$emit('update:modelValue', $event)"
+    v-model="internalValue"
     placeholder="Type a message..."
     hide-details
     @keyup.enter="sendMessage"
@@ -17,10 +16,21 @@
 <script lang="ts">
 export default {
   name: 'HuddleTextInput',
+  emits: ['update:modelValue', 'send-message'],
   props: {
     modelValue: {
       type: String,
       required: true
+    }
+  },
+  computed: {
+    internalValue: {
+      get() {
+        return this.modelValue
+      },
+      set(value: string) {
+        this.$emit('update:modelValue', value)
+      }
     }
   },
   methods: {
@@ -33,6 +43,7 @@ export default {
   }
 }
 </script>
+
 
 <style scoped>
 .send-message-input {

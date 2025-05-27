@@ -55,9 +55,6 @@ export default {
         console.error('Error fetching huddles:', error)
       }
     },
-    passHuddleToHuddleInfo(value) {
-      this.selectedHuddle = value
-    },
     async getHuddles() {
       try {
         const response = await HuddleService.getHuddles()
@@ -91,7 +88,7 @@ export default {
     <v-container fluid class="root-container">
       <v-row no-gutters class="full-height-row">
         <v-col cols="2">
-          <HuddleSideBar :huddles="huddles" @huddle-clicked="passHuddleToHuddleInfo" />
+          <HuddleSideBar />
         </v-col>
         <v-col cols="6">
           <HuddleChatWindow

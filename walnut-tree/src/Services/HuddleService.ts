@@ -1,4 +1,4 @@
-import { da } from 'vuetify/locale'
+
 import { apiService } from './ApiCaller'
 import type { AxiosResponse } from 'axios'
 import type { HuddleJoinRequest } from '@/components/huddle/Models/HuddleJoinRquest'

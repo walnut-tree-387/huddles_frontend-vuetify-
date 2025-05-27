@@ -10,17 +10,17 @@
         <div
           v-for="(message, index) in messages"
           :key="index"
-          :class="message.isOutgoing ? 'message-wrapper outgoing' : 'message-wrapper incoming'"
+          :class="message.outgoing ? 'message-wrapper outgoing' : 'message-wrapper incoming'"
         >
           <div class="message" @click="toggleTime(index)">
-            <WalnutUserAvatar v-if="!message.isOutgoing" color="primary" />
+            <WalnutUserAvatar v-if="!message.outgoing" color="primary" />
             <div
-              :class="message.isOutgoing ? 'message-content outgoing' : 'message-content incoming '"
+              :class="message.outgoing ? 'message-content outgoing' : 'message-content incoming '"
             >
               <v-list-item-title>{{ message.text }}</v-list-item-title>
             </div>
             <v-list-item-subtitle v-if="message.showTime" class="message-time">
-              {{ message.time }}
+              {{ message.createdAt }}
             </v-list-item-subtitle>
           </div>
         </div>
@@ -51,7 +51,8 @@ import HuddleFileButton from '../buttons/HuddleFileButton.vue'
 import HuddleTextInput from '../inputs/HuddleTextInput.vue'
 import WalnutUserAvatar from '../WalnutUserAvatar.vue'
 import HuddleInfo from '../huddle/HuddleInfo.vue'
-import { HuddleService } from '../../Services/HuddleService.js'
+import { HuddleService } from '../../Services/HuddleService'
+import { ChatService } from '../../Services/ChatService'
 import { useRoute } from 'vue-router'
 export default {
   name: 'HuddleChatWindow',
@@ -68,81 +69,44 @@ export default {
   },
   created() {
     this.getHuddle()
+    this.getHuddleMessages()
   },
   data() {
     return {
       messageInput: '',
       userAvatar: 'https://via.placeholder.com/40',
-      messages: [
-        {
-          text: 'Hello, how are you?',
-          time: '10:00 AM',
-          avatar: 'https://via.placeholder.com/40',
-          isOutgoing: false,
-          showTime: false
-        },
-        {
-          text: 'I am doing well, thank you!',
-          time: '10:01 AM',
-          avatar: 'https://via.placeholder.com/40',
-          isOutgoing: true,
-          showTime: false
-        },
-        {
-          text: 'Hello, how are you?',
-          time: '10:00 AM',
-          avatar: 'https://via.placeholder.com/40',
-          isOutgoing: false,
-          showTime: false
-        },
-        {
-          text: 'I am doing well, thank you!',
-          time: '10:01 AM',
-          avatar: 'https://via.placeholder.com/40',
-          isOutgoing: true,
-          showTime: false
-        },
-        {
-          text: 'Hello, how are you?',
-          time: '10:00 AM',
-          avatar: 'https://via.placeholder.com/40',
-          isOutgoing: false,
-          showTime: false
-        },
-        {
-          text: 'I am doing well, thank you!',
-          time: '10:01 AM',
-          avatar: 'https://via.placeholder.com/40',
-          isOutgoing: true,
-          showTime: false
-        }
-      ]
+      messages: []
     }
   },
   methods: {
     sendEmitToParent() {
       this.$emit('fetch-app-users')
     },
+    async getHuddleMessages() {
+      try {
+        const route = useRoute()
+        this.messages = await ChatService.getMessagesByHuddleUuid(this.$route.params.huddleUuid)
+      } catch (error) {
+        console.error('Error fetching huddle messages:', error)
+      }
+    },
     async getHuddle() {
       try {
         const route = useRoute()
-        const uuid = route.params.huddleUuid
-        const routedHuddle = await HuddleService.getHuddle(uuid)
+        const routedHuddle = await HuddleService.getHuddle(this.$route.params.huddleUuid)
         this.$emit('update:huddle', routedHuddle)
       } catch (error) {
         throw new Error(error)
       }
     },
-    sendMessage() {
+    async sendMessage() {
       if (this.messageInput.trim()) {
-        this.messages.push({
+        await ChatService.sendNewMessageToHuddle({
+          huddleUuid: this.huddle.uuid,
           text: this.messageInput,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          avatar: this.userAvatar,
-          isOutgoing: true,
-          showTime: false
         })
         this.messageInput = ''
+        this.getHuddleMessages()
       }
     },
     toggleTime(index) {
